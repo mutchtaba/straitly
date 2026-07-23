@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Departure Mono";
+  src: url("/fonts/DepartureMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+}
+
+:root {
+  --charcoal: #313338;
+  --charcoal-deep: #2a2c30;
+  --terracotta: #b77f5a;
+  --terracotta-bright: #cf9268;
+  --cream: #f0ebe2;
+  --warm-gray: #9a948b;
+}
+
+@theme inline {
+  --color-charcoal: var(--charcoal);
+  --color-charcoal-deep: var(--charcoal-deep);
+  --color-terracotta: var(--terracotta);
+  --color-terracotta-bright: var(--terracotta-bright);
+  --color-cream: var(--cream);
+  --color-warm-gray: var(--warm-gray);
+  --font-pixel: "Departure Mono", monospace;
+}
+
+html {
+  background: var(--charcoal);
+}
+
+body {
+  background: var(--charcoal);
+  color: var(--cream);
+  font-family: var(--font-jetbrains), monospace;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-pixel {
+  font-family: "Departure Mono", monospace;
+}
+
+::selection {
+  background: var(--terracotta);
+  color: var(--charcoal);
+}
