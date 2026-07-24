@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const SIZE = 1000;
+const SIZE = 760;
 /** visible vertical extent of the tilted ellipse + chips */
-const STAGE_H = 720;
+const STAGE_H = 600;
 const C = SIZE / 2;
 const TILT = (-12 * Math.PI) / 180;
 
@@ -18,14 +18,14 @@ type Ring = {
 
 const RINGS: Ring[] = [
   {
-    rx: 265,
-    ry: 175,
+    rx: 200,
+    ry: 132,
     speed: (2 * Math.PI) / 95,
     logos: ["openai", "claude", "gemini", "deepseek"],
   },
   {
-    rx: 438,
-    ry: 292,
+    rx: 330,
+    ry: 220,
     speed: (-2 * Math.PI) / 150,
     logos: ["kimi", "mistral", "meta", "grok", "qwen"],
   },
@@ -69,9 +69,7 @@ export default function OrbitSystem() {
     const wrap = wrapRef.current;
     if (!wrap) return;
     const ro = new ResizeObserver(([entry]) => {
-      // allow the stage to render up to 1.45x the column width so the
-      // orbit bleeds past the container edge and dominates the hero
-      setScale(Math.min((entry.contentRect.width * 1.45) / SIZE, 1));
+      setScale(Math.min(entry.contentRect.width / SIZE, 1));
     });
     ro.observe(wrap);
     return () => ro.disconnect();
@@ -121,6 +119,17 @@ export default function OrbitSystem() {
           viewBox={`0 0 ${SIZE} ${SIZE}`}
           fill="none"
         >
+          <defs>
+            <filter id="ringGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow
+                dx="0"
+                dy="0"
+                stdDeviation="3.5"
+                floodColor="#F0EBE2"
+                floodOpacity="0.3"
+              />
+            </filter>
+          </defs>
           {RINGS.map((r, i) => (
             <ellipse
               key={i}
@@ -129,10 +138,11 @@ export default function OrbitSystem() {
               rx={r.rx}
               ry={r.ry}
               transform={`rotate(${(TILT * 180) / Math.PI} ${C} ${C})`}
-              stroke="#B77F5A"
-              strokeOpacity="0.45"
-              strokeWidth="1.5"
-              strokeDasharray="4 7"
+              stroke="#C9C4BB"
+              strokeOpacity="0.32"
+              strokeWidth="1"
+              strokeDasharray="3 6"
+              filter="url(#ringGlow)"
             />
           ))}
         </svg>
@@ -175,14 +185,14 @@ export default function OrbitSystem() {
               ref={(el) => {
                 chipRefs.current[i] = el;
               }}
-              className="absolute left-1/2 top-1/2 -ml-8 -mt-8 flex h-16 w-16 items-center justify-center rounded-2xl border border-warm-gray/30 bg-gradient-to-b from-[#35373c] to-[#2b2d31] shadow-[0_10px_28px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(240,235,226,0.08)] will-change-transform"
+              className="absolute left-1/2 top-1/2 -ml-10 -mt-10 flex h-20 w-20 items-center justify-center rounded-2xl border border-warm-gray/30 bg-gradient-to-b from-[#35373c] to-[#2b2d31] shadow-[0_10px_28px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(240,235,226,0.08)] will-change-transform"
               style={s}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`/logos/${chip.logo}.svg`}
                 alt=""
-                className="h-8 w-8"
+                className="h-9 w-9"
                 style={{ filter: MONO_TINT }}
               />
             </div>
