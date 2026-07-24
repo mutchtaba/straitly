@@ -42,6 +42,10 @@ body {
   font-family: "Departure Mono", monospace;
 }
 
+.font-display {
+  font-family: var(--font-display), -apple-system, sans-serif;
+}
+
 ::selection {
   background: var(--terracotta);
   color: var(--charcoal);
