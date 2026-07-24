@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Handjet:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background:#313338;
+    font-family:'JetBrains Mono',monospace; color:#F0EBE2;
+    min-height:100vh; display:flex; align-items:center; justify-content:center; overflow:hidden;
+  }
+  .wrap { display:grid; grid-template-columns: 470px 560px; gap:80px; align-items:center; }
+  h1 { font-family:'Handjet',monospace; font-size:88px; font-weight:600; line-height:.98; }
+  h1 .t { color:#B77F5A; }
+  .sub { margin-top:26px; color:#9A948B; font-size:15px; line-height:1.8; max-width:420px; }
+  .sub b { color:#F0EBE2; font-weight:500; }
+  .live { margin-top:34px; font-size:13px; color:#9A948B; letter-spacing:.18em; }
+  .live .n { font-family:'Handjet',monospace; font-size:40px; color:#CF9268; letter-spacing:0; vertical-align:-6px; margin-right:10px; }
+
+  /* ------- the pool ------- */
+  .pool { position:relative; width:560px; height:600px; }
+  .tank {
+    position:absolute; left:70px; top:0; bottom:40px; width:330px;
+    border-left:1.5px solid rgba(154,148,139,.3);
+    border-right:1.5px solid rgba(154,148,139,.3);
+    border-bottom:1.5px solid rgba(154,148,139,.3);
+    border-radius:0 0 14px 14px;
+  }
+  /* stacked blocks */
+  .blocks { position:absolute; left:78px; bottom:48px; width:314px; display:flex; flex-wrap:wrap-reverse; gap:5px; }
+  /* tier lines */
+  .tier { position:absolute; left:70px; width:330px; border-top:1.5px dashed rgba(154,148,139,.35); }
+  .tier span {
+    position:absolute; right:-140px; top:-9px; font-size:11px; color:#9A948B; letter-spacing:.08em; white-space:nowrap;
+  }
+  .tier.hit { border-color:rgba(207,146,104,.75); }
+  .tier.hit span { color:#CF9268; }
+  /* falling chips */
+  .chip {
+    position:absolute; padding:6px 12px; border-radius:999px; font-size:11px;
+    background:#2a2c30; border:1px solid rgba(154,148,139,.3); color:#9A948B; white-space:nowrap;
+  }
+  .chip.you { border-color:#CF9268; color:#CF9268; box-shadow:0 0 24px rgba(207,146,104,.35); }
+  .cap { position:absolute; bottom:0; left:70px; width:330px; text-align:center; font-size:11px; letter-spacing:.22em; color:#9A948B; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div>
+      <h1>Your $2k buys<br><span class="t">like $10M.</span></h1>
+      <p class="sub">Every straitly customer's spend lands in <b>one pool</b>. The pool signs the bulk contracts. <b>Everyone gets the bulk price</b> — and the rate limits to match.</p>
+      <div class="live"><span class="n">-25%</span>CURRENT POOL RATE</div>
+    </div>
+
+    <div class="pool">
+      <!-- falling chips -->
+      <div class="chip you" style="top:18px;  left:150px;">you · +$2k</div>
+      <div class="chip" style="top:64px;  left:260px; opacity:.8;">acme · +$40k</div>
+      <div class="chip" style="top:110px; left:110px; opacity:.55;">nova · +$12k</div>
+
+      <div class="tank"></div>
+
+      <!-- tier marks (bottom-up) -->
+      <div class="tier"     style="bottom:200px;"><span>$1M &nbsp;→ &nbsp;-10%</span></div>
+      <div class="tier hit" style="bottom:330px;"><span>$5M &nbsp;→ &nbsp;-20%</span></div>
+      <div class="tier hit" style="bottom:460px;"><span>$10M → &nbsp;-25%</span></div>
+
+      <div class="blocks" id="blocks"></div>
+      <div class="cap">THE POOL · $11.4M COMMITTED</div>
+    </div>
+  </div>
+
+  <script>
+    const wrap = document.getElementById('blocks');
+    const COLS = 8, ROWS = 12;
+    for (let i = 0; i < COLS * ROWS; i++) {
+      const d = document.createElement('div');
+      const row = Math.floor(i / COLS);
+      d.style.width = '34px'; d.style.height = '34px'; d.style.borderRadius = '6px';
+      // most blocks are neutral; scattered terracotta ones = recent deposits
+      const hot = Math.random() < 0.09;
+      d.style.background = hot ? '#B77F5A' : '#3f4247';
+      if (hot) d.style.boxShadow = '0 0 16px rgba(183,127,90,.5)';
+      else d.style.opacity = (0.5 + Math.random() * 0.5).toFixed(2);
+      // top row ragged
+      if (row === ROWS - 1 && Math.random() < 0.55) d.style.visibility = 'hidden';
+      wrap.appendChild(d);
+    }
+  </script>
+</body>
+</html>

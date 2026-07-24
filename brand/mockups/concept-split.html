@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family:'Departure'; src:url('../fonts/DepartureMono-Regular.woff2') format('woff2'); }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background:
+      linear-gradient(rgba(154,148,139,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(154,148,139,.05) 1px, transparent 1px),
+      #313338;
+    background-size:56px 56px,56px 56px,auto;
+    font-family:'JetBrains Mono',ui-monospace,monospace;
+    color:#F0EBE2; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px;
+  }
+  h2 { font-family:'Departure',monospace; font-size:14px; letter-spacing:.25em; color:#9A948B; margin-bottom:14px; }
+  .headline { font-size:38px; font-weight:600; margin-bottom:48px; }
+  .headline .t { color:#B77F5A; }
+  .split { display:grid; grid-template-columns:480px 480px; gap:24px; }
+  .panel { border-radius:14px; padding:34px; border:1px solid rgba(154,148,139,.2); background:#2a2c30; position:relative; }
+  .panel.right { border-color:rgba(183,127,90,.5); box-shadow:0 0 60px rgba(183,127,90,.08); }
+  .tag { font-size:11px; letter-spacing:.2em; color:#9A948B; margin-bottom:26px; }
+  .panel.right .tag { color:#CF9268; }
+  .flow { display:flex; align-items:center; justify-content:space-between; margin-bottom:30px; }
+  .node { width:104px; height:76px; border-radius:10px; background:#35373c; border:1px solid rgba(154,148,139,.25); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; font-size:11px; color:#9A948B; }
+  .node img { width:22px; height:22px; filter:invert(92%) sepia(6%) saturate(153%) hue-rotate(357deg) brightness(103%) contrast(89%); }
+  .node.compass { border-color:rgba(183,127,90,.55); }
+  .pipe { flex:1; height:2px; margin:0 10px; position:relative; background:repeating-linear-gradient(90deg, rgba(154,148,139,.4) 0 5px, transparent 5px 11px); }
+  .panel.right .pipe.big { height:8px; border-radius:4px; background:linear-gradient(90deg, rgba(183,127,90,.7), rgba(207,146,104,.7)); }
+  .pipe .lbl { position:absolute; top:-22px; left:50%; transform:translateX(-50%); font-size:10px; color:#9A948B; white-space:nowrap; }
+  .panel.right .pipe.big .lbl { color:#CF9268; }
+  .price { font-family:'Departure',monospace; font-size:30px; color:#9A948B; }
+  .panel.right .price { color:#CF9268; }
+  .per { font-size:12px; color:#9A948B; }
+  .note { margin-top:10px; font-size:12px; color:#9A948B; line-height:1.6; }
+</style>
+</head>
+<body>
+  <h2>WHY WE'RE CHEAPER</h2>
+  <div class="headline">Same pipe. <span class="t">Better contract.</span></div>
+  <div class="split">
+    <div class="panel">
+      <div class="tag">BUYING DIRECT</div>
+      <div class="flow">
+        <div class="node"><span>your app</span></div>
+        <div class="pipe"><span class="lbl">pay-as-you-go</span></div>
+        <div class="node"><img src="../../public/logos/claude.svg"><span>anthropic</span></div>
+      </div>
+      <div class="price">$15.00 <span class="per">/1M tokens</span></div>
+      <div class="note">List price. No leverage, no volume, no discount.</div>
+    </div>
+    <div class="panel right">
+      <div class="tag">THROUGH STRAITLY</div>
+      <div class="flow">
+        <div class="node"><span>your app</span></div>
+        <div class="pipe"><span class="lbl">list &minus; 20%</span></div>
+        <div class="node compass"><img src="../straitly-mark.svg" style="filter:none"><span>straitly</span></div>
+        <div class="pipe big"><span class="lbl">$MM committed</span></div>
+        <div class="node"><img src="../../public/logos/claude.svg"><span>anthropic</span></div>
+      </div>
+      <div class="price">$12.00 <span class="per">/1M tokens</span></div>
+      <div class="note">We prepay millions for bulk rates. You tap into the contract.</div>
+    </div>
+  </div>
+</body>
+</html>

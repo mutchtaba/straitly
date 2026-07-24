@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Handjet:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background:#313338;
+    font-family:'JetBrains Mono',monospace; color:#F0EBE2;
+    min-height:100vh; display:flex; align-items:center; justify-content:center; overflow:hidden;
+  }
+  .wrap { display:grid; grid-template-columns: 500px 620px; gap:40px; align-items:center; }
+  h1 { font-family:'Handjet',monospace; font-size:96px; font-weight:600; line-height:.95; }
+  h1 .t { color:#B77F5A; }
+  .sub { margin-top:28px; color:#9A948B; font-size:15px; line-height:1.8; max-width:400px; }
+  .sub b { color:#F0EBE2; font-weight:500; }
+
+  /* the mass */
+  .mass { position:relative; width:620px; height:560px; display:flex; align-items:center; justify-content:center; }
+  .glow { position:absolute; inset:60px; background:radial-gradient(circle, rgba(183,127,90,.14), transparent 65%); }
+  .grid { display:grid; grid-template-columns:repeat(16, 26px); gap:6px; transform:rotate(-8deg); }
+  .cell { width:26px; height:26px; border-radius:5px; background:#3a3d42; border:1px solid rgba(154,148,139,.12); }
+  .cell.hot {
+    background:#B77F5A; border-color:#CF9268;
+    box-shadow:0 0 22px rgba(207,146,104,.9), 0 0 60px rgba(183,127,90,.5);
+  }
+  .you {
+    position:absolute; font-size:12px; color:#CF9268; letter-spacing:.1em;
+    top:118px; right:44px;
+  }
+  .you .line { display:inline-block; width:52px; height:1px; background:#CF9268; margin-right:8px; transform:translateY(-4px); }
+  .cap {
+    position:absolute; bottom:8px; left:50%; transform:translateX(-50%);
+    color:#9A948B; font-size:12px; letter-spacing:.22em; white-space:nowrap;
+  }
+  .cap b { color:#CF9268; font-weight:500; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div>
+      <h1>Buy like<br><span class="t">you're huge.</span></h1>
+      <p class="sub">Alone, you're one row on a spreadsheet. Pooled through straitly, you buy with <b>$10M of committed volume</b> — and get the price that comes with it.</p>
+    </div>
+    <div class="mass">
+      <div class="glow"></div>
+      <div class="grid" id="g"></div>
+      <div class="you"><span class="line"></span>you</div>
+      <div class="cap"><b>ONE CONTRACT</b> · EVERY PROVIDER · BULK RATE</div>
+    </div>
+  </div>
+  <script>
+    const g = document.getElementById('g');
+    const HOT = 214; // index of the highlighted cell
+    for (let i = 0; i < 16 * 15; i++) {
+      const d = document.createElement('div');
+      d.className = 'cell' + (i === HOT ? ' hot' : '');
+      // subtle brightness variance so the mass feels alive
+      if (i !== HOT) d.style.opacity = (0.55 + Math.random() * 0.45).toFixed(2);
+      g.appendChild(d);
+    }
+  </script>
+</body>
+</html>

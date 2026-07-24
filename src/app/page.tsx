@@ -2,8 +2,8 @@ import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import OrbitSystem from "@/components/OrbitSystem";
 import CodeShowcase from "@/components/CodeShowcase";
-import { TrustedBy, SavingsCounter } from "@/components/SocialProof";
-import RoutingCanvas from "@/components/RoutingCanvas";
+import { TrustedBy } from "@/components/SocialProof";
+import PricingLadder from "@/components/PricingLadder";
 
 const CONTAINER = "mx-auto w-full max-w-[1360px] px-6";
 
@@ -69,15 +69,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="flex min-h-screen items-center justify-center pb-32 pt-0 sm:pb-40">
+      <section className="py-32 sm:py-44">
         <div className={CONTAINER}>
-          <SavingsCounter />
-        </div>
-      </section>
-
-      <section className="pb-32 sm:pb-40">
-        <div className={CONTAINER}>
-          <RoutingCanvas />
+          <PricingLadder />
         </div>
       </section>
 

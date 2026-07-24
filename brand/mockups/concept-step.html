@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Handjet:wght@500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background:#313338;
+    font-family:'JetBrains Mono',monospace; color:#F0EBE2;
+    min-height:100vh; display:flex; align-items:center; justify-content:center; overflow:hidden;
+  }
+  .stage { position:relative; width:1200px; height:640px; }
+  svg { position:absolute; inset:0; }
+  .p-old {
+    position:absolute; top:96px; left:120px;
+    font-family:'Handjet',monospace; font-size:72px; color:#9A948B; font-weight:500;
+  }
+  .p-old small { font-size:20px; color:#6f6a63; }
+  .p-new {
+    position:absolute; bottom:120px; right:110px; text-align:right;
+    font-family:'Handjet',monospace; font-size:128px; color:#CF9268; font-weight:600; line-height:1;
+    text-shadow:0 0 50px rgba(207,146,104,.35);
+  }
+  .p-new small { font-size:24px; color:#9A948B; font-weight:400; }
+  .drop {
+    position:absolute; top:270px; left:588px;
+    font-size:13px; color:#B77F5A; letter-spacing:.15em;
+  }
+  .cap {
+    position:absolute; bottom:36px; left:120px;
+    color:#9A948B; font-size:13px; letter-spacing:.25em;
+  }
+  .cap b { color:#F0EBE2; font-weight:500; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <svg viewBox="0 0 1200 640" fill="none">
+      <defs>
+        <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#9A948B" stop-opacity=".7"/>
+          <stop offset=".46" stop-color="#9A948B" stop-opacity=".7"/>
+          <stop offset=".54" stop-color="#CF9268"/>
+          <stop offset="1" stop-color="#CF9268"/>
+        </linearGradient>
+        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="0" stdDeviation="8" flood-color="#CF9268" flood-opacity=".45"/>
+        </filter>
+      </defs>
+      <!-- one price line, one step down -->
+      <path d="M 120 200 L 560 200 Q 585 200 592 226 L 608 380 Q 615 406 640 406 L 1080 406"
+        stroke="url(#line)" stroke-width="5" stroke-linecap="round" filter="url(#glow)"/>
+      <!-- tick marks -->
+      <circle cx="120" cy="200" r="7" fill="#9A948B"/>
+      <circle cx="1080" cy="406" r="8" fill="#CF9268"/>
+    </svg>
+    <div class="p-old">$15.00 <small>/1M · list</small></div>
+    <div class="drop">&minus;20% · bulk contract</div>
+    <div class="p-new">$12.00<br><small>what you pay</small></div>
+    <div class="cap"><b>THE ONLY CHART THAT MATTERS.</b> &nbsp;THIS IS WHAT A $10M COMMITMENT DOES TO A PRICE.</div>
+  </div>
+</body>
+</html>

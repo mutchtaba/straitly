@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Handjet:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background:#313338;
+    font-family:'JetBrains Mono',monospace; color:#F0EBE2;
+    min-height:100vh; display:flex; align-items:center; justify-content:center; overflow:hidden;
+  }
+  .stage { position:relative; text-align:center; }
+  .eyebrow { font-size:13px; letter-spacing:.35em; color:#9A948B; margin-bottom:40px; }
+  .old {
+    position:relative; display:inline-block;
+    font-family:'Handjet',monospace; font-size:150px; font-weight:500; color:#8a857d; line-height:1;
+  }
+  .old .slash {
+    position:absolute; left:-4%; right:-4%; top:50%; height:10px; border-radius:5px;
+    background:#B77F5A; transform:rotate(-7deg);
+    box-shadow:0 0 30px rgba(183,127,90,.6);
+  }
+  .new {
+    font-family:'Handjet',monospace; font-size:280px; font-weight:600; color:#F0EBE2; line-height:.9;
+    margin-top:8px; letter-spacing:-.01em;
+  }
+  .new .cents { color:#CF9268; }
+  .per { margin-top:18px; color:#9A948B; font-size:15px; letter-spacing:.2em; }
+  .stamp {
+    position:absolute; top:150px; right:-150px; transform:rotate(9deg);
+    border:3px solid #CF9268; border-radius:10px; padding:10px 22px;
+    font-family:'Handjet',monospace; font-size:34px; color:#CF9268; letter-spacing:.08em;
+    box-shadow:0 0 40px rgba(207,146,104,.25), inset 0 0 24px rgba(207,146,104,.08);
+  }
+  .foot { margin-top:44px; color:#9A948B; font-size:13px; letter-spacing:.18em; }
+  .foot b { color:#F0EBE2; font-weight:500; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="eyebrow">CLAUDE OPUS 5 · PER 1M TOKENS</div>
+    <div class="old">$15.00<span class="slash"></span></div>
+    <div class="new">$12.<span class="cents">00</span></div>
+    <div class="stamp">BULK RATE</div>
+    <div class="per">SAME MODEL · SAME API · SAME LATENCY</div>
+    <div class="foot">WE COMMIT MILLIONS UPFRONT. <b>THE DISCOUNT IS YOURS.</b></div>
+  </div>
+</body>
+</html>

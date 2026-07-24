@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family:'Departure'; src:url('../fonts/DepartureMono-Regular.woff2') format('woff2'); }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background:
+      linear-gradient(rgba(154,148,139,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(154,148,139,.05) 1px, transparent 1px),
+      #313338;
+    background-size:56px 56px,56px 56px,auto;
+    font-family:'JetBrains Mono',ui-monospace,monospace;
+    color:#F0EBE2; min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px;
+  }
+  h2 { font-family:'Departure',monospace; font-size:14px; letter-spacing:.25em; color:#9A948B; margin-bottom:14px; }
+  .headline { font-size:38px; font-weight:600; letter-spacing:-.01em; margin-bottom:48px; }
+  .headline .t { color:#B77F5A; }
+  .grid { display:grid; grid-template-columns:repeat(3, 340px); gap:20px; }
+  .card {
+    background:#2a2c30; border:1px solid rgba(154,148,139,.2); border-radius:12px; padding:22px 24px;
+    box-shadow:0 14px 40px rgba(0,0,0,.35);
+  }
+  .card .top { display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+  .logo { width:34px; height:34px; border-radius:8px; background:#35373c; display:flex; align-items:center; justify-content:center; }
+  .logo img { width:18px; height:18px; filter:invert(92%) sepia(6%) saturate(153%) hue-rotate(357deg) brightness(103%) contrast(89%); }
+  .name { font-size:14px; }
+  .prov { color:#9A948B; font-size:11px; margin-top:2px; }
+  .prices { display:flex; align-items:baseline; gap:12px; }
+  .old { color:#9A948B; text-decoration:line-through; font-size:14px; }
+  .new { font-family:'Departure',monospace; color:#CF9268; font-size:22px; }
+  .per { color:#9A948B; font-size:11px; }
+  .save { margin-top:12px; display:inline-block; background:rgba(183,127,90,.15); color:#CF9268; font-size:11px; padding:4px 10px; border-radius:999px; }
+</style>
+</head>
+<body>
+  <h2>EVERY MODEL, BELOW LIST</h2>
+  <div class="headline">The shelf price is <span class="t">never ours.</span></div>
+  <div class="grid">
+    <div class="card">
+      <div class="top">
+        <div class="logo"><img src="../../public/logos/claude.svg"></div>
+        <div><div class="name">Claude Opus 5</div><div class="prov">anthropic</div></div>
+      </div>
+      <div class="prices"><span class="old">$15.00</span><span class="new">$12.00</span><span class="per">/1M out</span></div>
+      <div class="save">save 20%</div>
+    </div>
+    <div class="card">
+      <div class="top">
+        <div class="logo"><img src="../../public/logos/openai.svg"></div>
+        <div><div class="name">GPT-Sol 5.6</div><div class="prov">openai</div></div>
+      </div>
+      <div class="prices"><span class="old">$30.00</span><span class="new">$24.00</span><span class="per">/1M out</span></div>
+      <div class="save">save 20%</div>
+    </div>
+    <div class="card">
+      <div class="top">
+        <div class="logo"><img src="../../public/logos/gemini.svg"></div>
+        <div><div class="name">Gemini 3.5 Flash</div><div class="prov">google</div></div>
+      </div>
+      <div class="prices"><span class="old">$3.50</span><span class="new">$2.63</span><span class="per">/1M out</span></div>
+      <div class="save">save 25%</div>
+    </div>
+  </div>
+</body>
+</html>
