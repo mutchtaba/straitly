@@ -2,9 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const MONO_TINT =
-  "invert(92%) sepia(6%) saturate(153%) hue-rotate(357deg) brightness(103%) contrast(89%)";
-
 const COMPANIES = [
   { logo: "replit", name: "Replit" },
   { logo: "perplexity", name: "Perplexity" },
@@ -15,13 +12,16 @@ const COMPANIES = [
   { logo: "railway", name: "Railway" },
 ];
 
+const MONO_TINT =
+  "invert(92%) sepia(6%) saturate(153%) hue-rotate(357deg) brightness(103%) contrast(89%)";
+
 export function TrustedBy() {
   return (
     <div className="flex flex-col gap-12">
       <p className="text-center font-pixel text-sm tracking-[0.35em] text-warm-gray sm:text-base">
         TRUSTED BY ENGINEERS AT
       </p>
-      <div className="flex flex-wrap items-center justify-between gap-x-10 gap-y-10 opacity-70">
+      <div className="flex flex-wrap items-center justify-between gap-x-10 gap-y-10">
         {COMPANIES.map((c) => (
           <span key={c.logo} className="flex items-center gap-3.5">
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -29,7 +29,7 @@ export function TrustedBy() {
               src={`/logos/${c.logo}.svg`}
               alt={c.name}
               className="h-9 w-9"
-              style={{ filter: MONO_TINT }}
+              style={{ filter: `brightness(0) saturate(100%) ${MONO_TINT}` }}
             />
             <span className="text-xl font-semibold tracking-tight text-cream sm:text-2xl">
               {c.name}

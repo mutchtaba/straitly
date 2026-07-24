@@ -84,8 +84,6 @@ export default function CodeShowcase() {
       {/* code */}
       <pre className="p-5 font-mono text-[12px] leading-[1.9] sm:text-[13px]">
         <code>
-          <span className={dim}>{"// point your OpenAI client at straitly"}</span>
-          {"\n"}
           <span className={kw}>const</span> <span className={fn}>client</span>{" "}
           <span className={dim}>=</span> <span className={kw}>new</span>{" "}
           <span className={fn}>OpenAI</span>
@@ -113,18 +111,18 @@ export default function CodeShowcase() {
           <span className={dim}>,</span>
           {"\n  "}
           <span className={fn}>messages</span>
-          <span className={dim}>:</span> <span className={dim}>[</span>
-          {"\n    "}
-          <span className={dim}>{"{"}</span> <span className={fn}>role</span>
+          <span className={dim}>:</span> <span className={dim}>[{"{"}</span>{" "}
+          <span className={fn}>role</span>
           <span className={dim}>:</span>{" "}
           <span className={str}>&quot;user&quot;</span>
-          <span className={dim}>,</span> <span className={fn}>content</span>
-          <span className={dim}>:</span>{" "}
-          <span className={str}>&quot;Why didn&apos;t I use straitly sooner?&quot;</span>{" "}
-          <span className={dim}>{"}"}</span>
-          {"\n  "}
-          <span className={dim}>]</span>
           <span className={dim}>,</span>
+          {"\n    "}
+          <span className={fn}>content</span>
+          <span className={dim}>:</span>{" "}
+          <span className={str}>
+            &quot;Why didn&apos;t I switch sooner?&quot;
+          </span>{" "}
+          <span className={dim}>{"}]"},</span>
           {"\n"}
           <span className={dim}>{"})"};</span>
         </code>

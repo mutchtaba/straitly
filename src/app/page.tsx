@@ -68,7 +68,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-28 sm:py-36">
+      <section className="flex min-h-screen items-center justify-center">
         <div className={CONTAINER}>
           <SavingsCounter />
         </div>
