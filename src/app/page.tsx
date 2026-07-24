@@ -18,7 +18,7 @@ export default function Home() {
               height={26}
               priority
             />
-            <span className="font-pixel text-lg tracking-wide text-cream">
+            <span className="font-pixel text-2xl font-bold tracking-wide text-cream">
               straitly
             </span>
           </div>
@@ -42,14 +42,14 @@ export default function Home() {
               </p>
             </Reveal>
             <Reveal delay={0.1}>
-              <h1 className="font-display text-6xl leading-[1.02] text-cream sm:text-7xl xl:text-[84px]">
+              <h1 className="font-display text-6xl font-semibold leading-[1.0] text-cream sm:text-7xl xl:text-[92px]">
                 <span className="whitespace-nowrap">Wholesale API</span>
                 <br />
                 <span className="text-terracotta">for Tokens</span>
               </h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="mt-7 max-w-md font-pixel text-xs leading-relaxed text-warm-gray sm:text-sm">
+              <p className="mt-7 max-w-md font-pixel text-base leading-relaxed text-warm-gray sm:text-lg">
                 We buy in bulk so you save money.
               </p>
             </Reveal>

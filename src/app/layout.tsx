@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Jersey_25, JetBrains_Mono } from "next/font/google";
+import { Handjet, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const jersey = Jersey_25({
+const handjet = Handjet({
   subsets: ["latin"],
-  weight: "400",
+  weight: ["500", "600", "700"],
   variable: "--font-display",
 });
 
@@ -39,7 +39,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${jetbrains.variable} ${jersey.variable}`}>
+    <html lang="en" className={`${jetbrains.variable} ${handjet.variable}`}>
       <head>
         <link
           rel="preload"
