@@ -3,7 +3,7 @@ import Reveal from "@/components/Reveal";
 import RequestAccessForm from "@/components/RequestAccessForm";
 import OrbitSystem from "@/components/OrbitSystem";
 
-const CONTAINER = "mx-auto w-full max-w-[1200px] px-6 sm:px-8";
+const CONTAINER = "mx-auto w-full max-w-[1280px] px-5 sm:px-6";
 
 export default function Home() {
   return (
@@ -42,7 +42,7 @@ export default function Home() {
               </p>
             </Reveal>
             <Reveal delay={0.1}>
-              <h1 className="font-display text-5xl font-semibold leading-[1.04] tracking-tight text-cream sm:text-6xl xl:text-7xl">
+              <h1 className="font-display text-5xl font-semibold leading-[1.06] text-cream sm:text-6xl xl:text-7xl">
                 Wholesale API
                 <br />
                 <span className="text-terracotta">for Tokens</span>

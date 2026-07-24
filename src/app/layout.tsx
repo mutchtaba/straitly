@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { Pixelify_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const spaceGrotesk = Space_Grotesk({
+const pixelify = Pixelify_Sans({
   subsets: ["latin"],
   variable: "--font-display",
 });
@@ -38,7 +38,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${jetbrains.variable} ${spaceGrotesk.variable}`}>
+    <html lang="en" className={`${jetbrains.variable} ${pixelify.variable}`}>
       <head>
         <link
           rel="preload"
