@@ -42,18 +42,15 @@ export default function Home() {
               </p>
             </Reveal>
             <Reveal delay={0.1}>
-              <h1 className="font-display text-5xl font-semibold leading-[1.06] text-cream sm:text-6xl xl:text-7xl">
-                Wholesale API
+              <h1 className="font-display text-5xl font-semibold leading-[1.08] text-cream sm:text-6xl xl:text-[64px]">
+                <span className="whitespace-nowrap">Wholesale API</span>
                 <br />
                 <span className="text-terracotta">for Tokens</span>
               </h1>
             </Reveal>
             <Reveal delay={0.2}>
               <p className="mt-7 max-w-md text-sm leading-relaxed text-warm-gray sm:text-base">
-                We buy in bulk so you save money.{" "}
-                <span className="text-cream">
-                  Every model, 10&ndash;25% under list price.
-                </span>
+                We buy in bulk so you save money.
               </p>
             </Reveal>
             <Reveal delay={0.3} className="mt-10">

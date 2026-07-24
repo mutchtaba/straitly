@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Pixelify_Sans, JetBrains_Mono } from "next/font/google";
+import { Chakra_Petch, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const pixelify = Pixelify_Sans({
+const chakra = Chakra_Petch({
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
   variable: "--font-display",
 });
 
@@ -38,7 +39,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${jetbrains.variable} ${pixelify.variable}`}>
+    <html lang="en" className={`${jetbrains.variable} ${chakra.variable}`}>
       <head>
         <link
           rel="preload"
