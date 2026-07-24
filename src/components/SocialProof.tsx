@@ -86,7 +86,10 @@ export function SavingsCounter() {
       className="flex flex-col items-center gap-10 sm:flex-row sm:justify-center sm:gap-16"
     >
       <span className="font-display text-8xl font-semibold leading-none text-terracotta sm:text-9xl">
-        -{value}%<span className="text-warm-gray">*</span>
+        -{value}%
+        <span className="align-super text-3xl text-warm-gray sm:text-4xl">
+          *
+        </span>
       </span>
       <div className="max-w-xs text-center sm:text-left">
         <p className="font-pixel text-xs tracking-[0.25em] text-warm-gray">

@@ -3,6 +3,7 @@ import Reveal from "@/components/Reveal";
 import OrbitSystem from "@/components/OrbitSystem";
 import CodeShowcase from "@/components/CodeShowcase";
 import { TrustedBy, SavingsCounter } from "@/components/SocialProof";
+import RoutingCanvas from "@/components/RoutingCanvas";
 
 const CONTAINER = "mx-auto w-full max-w-[1360px] px-6";
 
@@ -71,6 +72,12 @@ export default function Home() {
       <section className="flex min-h-screen items-center justify-center pb-32 pt-0 sm:pb-40">
         <div className={CONTAINER}>
           <SavingsCounter />
+        </div>
+      </section>
+
+      <section className="pb-32 sm:pb-40">
+        <div className={CONTAINER}>
+          <RoutingCanvas />
         </div>
       </section>
 
