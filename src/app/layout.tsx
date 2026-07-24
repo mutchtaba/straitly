@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Chakra_Petch, JetBrains_Mono } from "next/font/google";
+import { Jersey_25, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const chakra = Chakra_Petch({
+const jersey = Jersey_25({
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: "400",
   variable: "--font-display",
 });
 
@@ -39,7 +39,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${jetbrains.variable} ${chakra.variable}`}>
+    <html lang="en" className={`${jetbrains.variable} ${jersey.variable}`}>
       <head>
         <link
           rel="preload"

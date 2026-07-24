@@ -8,7 +8,7 @@ const CONTAINER = "mx-auto w-full max-w-[1280px] px-5 sm:px-6";
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col">
-      <nav className="border-b border-warm-gray/15">
+      <nav>
         <div className={`${CONTAINER} flex items-center justify-between py-4`}>
           <div className="flex items-center gap-3">
             <Image
@@ -42,14 +42,14 @@ export default function Home() {
               </p>
             </Reveal>
             <Reveal delay={0.1}>
-              <h1 className="font-display text-5xl font-semibold leading-[1.08] text-cream sm:text-6xl xl:text-[64px]">
+              <h1 className="font-display text-6xl leading-[1.02] text-cream sm:text-7xl xl:text-[84px]">
                 <span className="whitespace-nowrap">Wholesale API</span>
                 <br />
                 <span className="text-terracotta">for Tokens</span>
               </h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="mt-7 max-w-md text-sm leading-relaxed text-warm-gray sm:text-base">
+              <p className="mt-7 max-w-md font-pixel text-xs leading-relaxed text-warm-gray sm:text-sm">
                 We buy in bulk so you save money.
               </p>
             </Reveal>
