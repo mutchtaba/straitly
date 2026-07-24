@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Option C</title>
+<style>
+@font-face { font-family: 'Departure Mono'; src: url('../tmp/DepartureMono-1.500/DepartureMono-Regular.woff2') format('woff2'); }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#313338; color:#F0EBE2; font-family:'JetBrains Mono', ui-monospace, Menlo, monospace; }
+.sans { font-family:'Inter', -apple-system, 'Helvetica Neue', sans-serif; }
+nav { display:flex; justify-content:space-between; align-items:center; padding:22px 44px; }
+.brand { display:flex; gap:12px; align-items:center; }
+.brand span { font-family:'Departure Mono'; font-size:19px; }
+.cta-outline { border:1px solid #B77F5A; color:#B77F5A; padding:9px 18px; font-size:13px; text-decoration:none; }
+.hero { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; padding:80px 44px; max-width:1280px; margin:0 auto; }
+.eyebrow { color:#9A948B; font-size:13px; letter-spacing:.25em; margin-bottom:22px; }
+h1 { font-size:50px; line-height:1.1; font-weight:700; letter-spacing:-0.02em; }
+h1 .accent { color:#B77F5A; }
+.sub { color:#9A948B; font-size:15px; line-height:1.65; margin-top:24px; max-width:480px; }
+.form { display:flex; gap:12px; margin-top:36px; max-width:440px; }
+.form input { flex:1; height:48px; background:#2a2c30; border:1px solid rgba(154,148,139,.4); color:#F0EBE2; padding:0 16px; font-family:inherit; font-size:14px; }
+.form button { height:48px; padding:0 24px; background:#B77F5A; border:none; color:#313338; font-weight:600; font-size:14px; font-family:inherit; }
+.term { background:#26282c; border:1px solid rgba(154,148,139,.25); border-radius:10px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.35); }
+.term-bar { display:flex; gap:7px; padding:13px 16px; border-bottom:1px solid rgba(154,148,139,.15); }
+.dot { width:11px; height:11px; border-radius:50%; background:#4a4d53; }
+.term pre { padding:22px; font-size:13px; line-height:1.75; color:#c9c4bb; overflow:hidden; }
+.g { color:#8fae7a; } .t { color:#B77F5A; } .m { color:#9A948B; }
+.receipt { display:flex; justify-content:space-between; padding:15px 22px; border-top:1px solid rgba(154,148,139,.15); font-size:13px; }
+.receipt .strike { color:#9A948B; text-decoration:line-through; }
+.receipt .pay { color:#B77F5A; font-family:'Departure Mono'; }
+</style>
+</head>
+<body>
+<nav>
+  <div class="brand">
+    <svg width="28" height="28" viewBox="0 0 300 300"><circle cx="150" cy="150" r="130" fill="none" stroke="#B77F5A" stroke-width="8"/><path d="M 234.57,65.43 L 172.06,172.06 L 127.94,127.94 Z" fill="#B77F5A"/><path d="M 65.43,234.57 L 172.06,172.06 L 127.94,127.94 Z M 83.36,216.64 L 161.68,170.73 L 129.27,138.32 Z" fill="#B77F5A" fill-rule="evenodd"/></svg>
+    <span>straitly</span>
+  </div>
+  <a class="cta-outline" href="#">Request access</a>
+</nav>
+<div class="hero">
+  <div>
+    <div class="eyebrow">BULK PRICING FOR AI INFERENCE</div>
+    <h1 class="sans">One API.<br>Every model.<br><span class="accent">Below list price.</span></h1>
+    <p class="sub">An OpenAI-compatible gateway to 300+ models. We pool demand, buy in bulk, and pass the discount to you. <span style="color:#F0EBE2">Costco for tokens.</span></p>
+    <div class="form"><input placeholder="you@company.com"><button>Request access</button></div>
+  </div>
+  <div class="term">
+    <div class="term-bar"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+    <pre>
+<span class="m">$</span> curl <span class="t">api.straitly.ai</span>/v1/chat/completions \
+    -H <span class="g">"Authorization: Bearer sk-str-..."</span> \
+    -d <span class="g">'{
+      "model": "anthropic/claude-opus-4",
+      "messages": [{"role":"user",
+        "content":"hello"}]
+    }'</span>
+
+<span class="m">// any model. openai, anthropic, google,</span>
+<span class="m">// deepseek, meta &mdash; one key, one bill.</span></pre>
+    <div class="receipt">
+      <span class="m">this request, list price: <span class="strike">$0.0148</span></span>
+      <span class="pay">you paid $0.0111 (-25%)</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

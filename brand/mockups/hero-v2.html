@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Straitly — hero v2</title>
+<style>
+@font-face { font-family: 'Departure Mono'; src: url('../tmp/DepartureMono-1.500/DepartureMono-Regular.woff2') format('woff2'); }
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background:#28292d;
+  color:#F0EBE2;
+  font-family:'JetBrains Mono', ui-monospace, Menlo, monospace;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+.sans { font-family:'Inter', -apple-system, 'Helvetica Neue', sans-serif; }
+.pixel { font-family:'Departure Mono', monospace; }
+
+/* atmosphere */
+.bg {
+  position:fixed; inset:0; pointer-events:none;
+  background:
+    radial-gradient(ellipse 900px 500px at 75% 40%, rgba(183,127,90,.13), transparent 60%),
+    radial-gradient(ellipse 700px 700px at 10% 90%, rgba(183,127,90,.05), transparent 60%);
+}
+.grid-bg {
+  position:fixed; inset:0; pointer-events:none; opacity:.35;
+  background-image:
+    linear-gradient(rgba(154,148,139,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(154,148,139,.07) 1px, transparent 1px);
+  background-size:56px 56px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 30%, transparent 75%);
+}
+
+nav {
+  position:relative; z-index:2;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:24px 52px;
+}
+.brand { display:flex; gap:12px; align-items:center; }
+.brand span { font-family:'Departure Mono'; font-size:19px; letter-spacing:.02em; }
+.nav-right { display:flex; gap:28px; align-items:center; }
+.nav-link { color:#9A948B; font-size:13px; text-decoration:none; }
+.cta-outline {
+  border:1px solid rgba(183,127,90,.7); color:#B77F5A;
+  padding:9px 18px; font-size:13px; text-decoration:none;
+  transition:.2s;
+}
+
+.hero {
+  position:relative; z-index:2;
+  display:grid; grid-template-columns: 1.05fr .95fr; gap:48px;
+  align-items:center;
+  max-width:1320px; margin:0 auto; padding:72px 52px 96px;
+}
+
+.eyebrow {
+  display:inline-flex; align-items:center; gap:10px;
+  border:1px solid rgba(183,127,90,.35);
+  background:rgba(183,127,90,.08);
+  color:#c99b78; font-size:12px; letter-spacing:.18em;
+  padding:7px 14px; border-radius:99px; margin-bottom:30px;
+}
+.eyebrow .dot { width:6px; height:6px; border-radius:50%; background:#B77F5A; box-shadow:0 0 8px #B77F5A; }
+
+h1 {
+  font-size:62px; line-height:1.04; font-weight:750; letter-spacing:-0.025em;
+}
+h1 .accent { color:#B77F5A; }
+h1 .dim { color:#9A948B; }
+
+.sub { color:#9A948B; font-size:16px; line-height:1.7; margin-top:28px; max-width:540px; }
+.sub b { color:#F0EBE2; font-weight:500; }
+.sub .cost { color:#c99b78; }
+
+.form { display:flex; gap:12px; margin-top:42px; max-width:480px; }
+.form input {
+  flex:1; height:52px; background:rgba(42,44,48,.8); backdrop-filter:blur(4px);
+  border:1px solid rgba(154,148,139,.35); color:#F0EBE2;
+  padding:0 18px; font-family:inherit; font-size:14px; border-radius:4px;
+}
+.form button {
+  height:52px; padding:0 26px; border:none; border-radius:4px;
+  background:linear-gradient(180deg, #c98f66, #B77F5A);
+  color:#26272b; font-weight:700; font-size:14px; font-family:inherit;
+  box-shadow:0 6px 24px rgba(183,127,90,.35), inset 0 1px 0 rgba(255,255,255,.25);
+}
+.proof { display:flex; gap:26px; margin-top:34px; color:#9A948B; font-size:12px; }
+.proof span b { color:#F0EBE2; font-weight:600; display:block; font-size:16px; font-family:'Departure Mono'; }
+
+/* ---- right: routing card ---- */
+.stage { position:relative; }
+.stage .glowline {
+  position:absolute; left:-40px; right:-40px; top:50%; height:1px;
+  background:linear-gradient(90deg, transparent, rgba(183,127,90,.5), transparent);
+}
+.router-card {
+  position:relative;
+  background:linear-gradient(180deg, rgba(46,48,53,.92), rgba(38,40,44,.96));
+  border:1px solid rgba(154,148,139,.22);
+  border-radius:14px;
+  box-shadow:0 30px 80px rgba(0,0,0,.5), inset 0 1px 0 rgba(240,235,226,.06);
+  overflow:hidden;
+}
+.rc-head {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:16px 22px; border-bottom:1px solid rgba(154,148,139,.15);
+  font-size:12px; color:#9A948B;
+}
+.rc-head .live { display:flex; align-items:center; gap:8px; }
+.rc-head .live i { width:7px; height:7px; border-radius:50%; background:#8fae7a; box-shadow:0 0 8px #8fae7a; }
+
+.route-row {
+  display:flex; align-items:center; gap:14px;
+  padding:14px 22px; border-bottom:1px solid rgba(154,148,139,.08);
+  font-size:13px;
+}
+.route-row .model { color:#F0EBE2; width:220px; }
+.route-row .model small { display:block; color:#9A948B; font-size:11px; margin-top:2px; }
+.route-row .path { flex:1; height:1px; background:linear-gradient(90deg, rgba(154,148,139,.35), rgba(183,127,90,.8)); position:relative; }
+.route-row .path::after { content:''; position:absolute; right:0; top:-2.5px; width:6px; height:6px; border-radius:50%; background:#B77F5A; }
+.route-row .price { text-align:right; width:150px; }
+.route-row .price .was { color:#9A948B; text-decoration:line-through; font-size:11px; margin-right:8px; }
+.route-row .price .now { color:#c99b78; font-family:'Departure Mono'; }
+
+.rc-foot {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:16px 22px; font-size:12px; color:#9A948B;
+  background:rgba(183,127,90,.06);
+}
+.rc-foot .total { font-family:'Departure Mono'; color:#B77F5A; font-size:15px; }
+
+.badge-25 {
+  position:absolute; top:-34px; right:-26px; z-index:3;
+  background:#B77F5A; color:#26272b;
+  font-family:'Departure Mono'; font-size:26px;
+  padding:14px 20px; border-radius:8px;
+  box-shadow:0 16px 44px rgba(183,127,90,.45);
+  transform:rotate(4deg);
+}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="grid-bg"></div>
+
+<nav>
+  <div class="brand">
+    <svg width="30" height="30" viewBox="0 0 300 300"><circle cx="150" cy="150" r="130" fill="none" stroke="#B77F5A" stroke-width="8"/><path d="M 234.57,65.43 L 172.06,172.06 L 127.94,127.94 Z" fill="#B77F5A"/><path d="M 65.43,234.57 L 172.06,172.06 L 127.94,127.94 Z M 83.36,216.64 L 161.68,170.73 L 129.27,138.32 Z" fill="#B77F5A" fill-rule="evenodd"/></svg>
+    <span>straitly</span>
+  </div>
+  <div class="nav-right">
+    <a class="nav-link" href="#">Models</a>
+    <a class="nav-link" href="#">Pricing</a>
+    <a class="cta-outline" href="#">Request access</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div>
+    <div class="eyebrow"><i class="dot"></i>ONE API &middot; EVERY FRONTIER MODEL</div>
+    <h1 class="sans">Route to any model.<br><span class="accent">Pay below list price.</span></h1>
+    <p class="sub">Straitly is an OpenAI-compatible gateway to <b>300+ models</b>.
+      We pool our users&rsquo; demand into bulk commitments with the labs and pass the
+      discount back &mdash; <span class="cost">10&ndash;25% under provider prices</span>, on every request.</p>
+    <div class="form"><input placeholder="you@company.com"><button>Request access</button></div>
+    <div class="proof">
+      <span><b>300+</b>models</span>
+      <span><b>1 key</b>one bill</span>
+      <span><b>99.9%</b>uptime w/ failover</span>
+      <span><b>5 min</b>to migrate</span>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="glowline"></div>
+    <div class="router-card">
+      <div class="badge-25 pixel">-25%</div>
+      <div class="rc-head">
+        <span>api.straitly.ai &middot; live routes</span>
+        <span class="live"><i></i>operational</span>
+      </div>
+      <div class="route-row">
+        <div class="model">anthropic/claude-opus-4<small>128k ctx &middot; frontier</small></div>
+        <div class="path"></div>
+        <div class="price"><span class="was">$15.00</span><span class="now">$11.25</span></div>
+      </div>
+      <div class="route-row">
+        <div class="model">openai/gpt-5.2<small>200k ctx &middot; frontier</small></div>
+        <div class="path"></div>
+        <div class="price"><span class="was">$10.00</span><span class="now">$8.00</span></div>
+      </div>
+      <div class="route-row">
+        <div class="model">google/gemini-3.1-pro<small>1M ctx &middot; frontier</small></div>
+        <div class="path"></div>
+        <div class="price"><span class="was">$7.00</span><span class="now">$5.60</span></div>
+      </div>
+      <div class="route-row">
+        <div class="model">deepseek/deepseek-v4<small>164k ctx &middot; value</small></div>
+        <div class="path"></div>
+        <div class="price"><span class="was">$1.10</span><span class="now">$0.94</span></div>
+      </div>
+      <div class="rc-foot">
+        <span>output $/M tokens &middot; billed per request</span>
+        <span class="total">every model, under list</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

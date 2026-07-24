@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Option A</title>
+<style>
+@font-face { font-family: 'Departure Mono'; src: url('../tmp/DepartureMono-1.500/DepartureMono-Regular.woff2') format('woff2'); }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#313338; color:#F0EBE2; font-family:'JetBrains Mono', ui-monospace, Menlo, monospace; }
+.sans { font-family: 'Inter', -apple-system, 'Helvetica Neue', sans-serif; }
+.pixel { font-family:'Departure Mono', monospace; }
+nav { display:flex; justify-content:space-between; align-items:center; padding:22px 44px; }
+.brand { display:flex; gap:12px; align-items:center; }
+.brand span { font-family:'Departure Mono'; font-size:19px; }
+.cta-outline { border:1px solid #B77F5A; color:#B77F5A; padding:9px 18px; font-size:13px; text-decoration:none; }
+.hero { display:grid; grid-template-columns:1.1fr 1fr; gap:60px; align-items:center; padding:90px 44px; max-width:1280px; margin:0 auto; }
+.eyebrow { color:#9A948B; font-size:13px; letter-spacing:.25em; margin-bottom:22px; }
+h1 { font-size:56px; line-height:1.08; font-weight:700; letter-spacing:-0.02em; }
+h1 .accent { color:#B77F5A; }
+.sub { color:#9A948B; font-size:16px; line-height:1.65; margin-top:26px; max-width:520px; }
+.sub b { color:#F0EBE2; font-weight:500; }
+.form { display:flex; gap:12px; margin-top:40px; max-width:460px; }
+.form input { flex:1; height:48px; background:#2a2c30; border:1px solid rgba(154,148,139,.4); color:#F0EBE2; padding:0 16px; font-family:inherit; font-size:14px; }
+.form button { height:48px; padding:0 24px; background:#B77F5A; border:none; color:#313338; font-weight:600; font-size:14px; font-family:inherit; }
+.big { text-align:right; }
+.big .num { font-family:'Departure Mono'; font-size:190px; color:#B77F5A; line-height:1; }
+.big .cap { font-family:'Departure Mono'; color:#9A948B; font-size:13px; letter-spacing:.2em; margin-top:14px; }
+</style>
+</head>
+<body>
+<nav>
+  <div class="brand">
+    <svg width="28" height="28" viewBox="0 0 300 300"><circle cx="150" cy="150" r="130" fill="none" stroke="#B77F5A" stroke-width="8"/><path d="M 234.57,65.43 L 172.06,172.06 L 127.94,127.94 Z" fill="#B77F5A"/><path d="M 65.43,234.57 L 172.06,172.06 L 127.94,127.94 Z M 83.36,216.64 L 161.68,170.73 L 129.27,138.32 Z" fill="#B77F5A" fill-rule="evenodd"/></svg>
+    <span>straitly</span>
+  </div>
+  <a class="cta-outline" href="#">Request access</a>
+</nav>
+<div class="hero">
+  <div>
+    <div class="eyebrow">ONE API &middot; 300+ MODELS</div>
+    <h1 class="sans">The AI gateway<br>that <span class="accent">beats list price</span>.</h1>
+    <p class="sub">Route every request through one OpenAI-compatible API.
+    We pool demand and buy in bulk &mdash; you pay <b>10&ndash;25% under provider prices</b>.</p>
+    <div class="form"><input placeholder="you@company.com"><button>Request access</button></div>
+  </div>
+  <div class="big">
+    <div class="num">-25%</div>
+    <div class="cap">UNDER PROVIDER LIST PRICE</div>
+  </div>
+</div>
+</body>
+</html>

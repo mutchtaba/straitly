@@ -9,22 +9,22 @@ const jetbrains = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://straitly.ai"),
-  title: "Straitly — Every model. Below list price.",
+  title: "Straitly — Wholesale API for Tokens",
   description:
-    "One API for 300+ models at 10–25% under provider list prices. We pool demand, buy in bulk, and pass the discount to you. Costco for tokens.",
+    "We buy in bulk so you save money. An OpenAI-compatible gateway to 300+ models at 10–25% under provider list prices.",
   openGraph: {
-    title: "Straitly — Every model. Below list price.",
+    title: "Straitly — Wholesale API for Tokens",
     description:
-      "One API for 300+ models at 10–25% under provider list prices. We pool demand, buy in bulk, and pass the discount to you.",
+      "We buy in bulk so you save money. An OpenAI-compatible gateway to 300+ models at 10–25% under provider list prices.",
     url: "https://straitly.ai",
     siteName: "Straitly",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Straitly — Every model. Below list price.",
+    title: "Straitly — Wholesale API for Tokens",
     description:
-      "One API for 300+ models, 10–25% under list price. We buy in bulk. You get the discount.",
+      "We buy in bulk so you save money. 300+ models, 10–25% under list price.",
   },
   icons: { icon: "/favicon.svg" },
 };

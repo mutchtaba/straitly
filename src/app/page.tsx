@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import RequestAccessForm from "@/components/RequestAccessForm";
-import PixelDiscount from "@/components/PixelDiscount";
+import OrbitSystem from "@/components/OrbitSystem";
 
 export default function Home() {
   return (
@@ -27,37 +27,68 @@ export default function Home() {
         </a>
       </nav>
 
-      <section className="flex flex-1 items-center px-6 py-16 sm:px-10">
-        <div className="mx-auto grid w-full max-w-6xl items-center gap-14 lg:grid-cols-2">
+      <section className="flex flex-1 items-center px-6 py-12 sm:px-10">
+        <div className="mx-auto grid w-full max-w-6xl items-center gap-10 lg:grid-cols-2">
           <div>
             <Reveal>
               <p className="mb-5 font-pixel text-xs tracking-[0.25em] text-warm-gray sm:text-sm">
-                BULK PRICING FOR AI INFERENCE
+                ONE API &middot; EVERY FRONTIER MODEL
               </p>
             </Reveal>
             <Reveal delay={0.1}>
-              <h1 className="font-pixel text-4xl leading-tight text-cream sm:text-5xl lg:text-6xl">
-                Every model.
+              <h1 className="font-pixel text-4xl leading-tight text-cream sm:text-5xl lg:text-[3.4rem]">
+                Wholesale API
                 <br />
-                <span className="text-terracotta">Below list price.</span>
+                <span className="text-terracotta">for Tokens</span>
               </h1>
             </Reveal>
             <Reveal delay={0.2}>
               <p className="mt-6 max-w-xl text-sm leading-relaxed text-warm-gray sm:text-base">
-                One API for 300+ models at 10&ndash;25% under provider prices.
-                We pool demand, buy in bulk, and pass the discount to you.
-                <span className="text-cream"> Costco for tokens.</span>
+                We buy in bulk so you save money. An OpenAI-compatible gateway
+                to 300+ models at{" "}
+                <span className="text-cream">
+                  10&ndash;25% under provider list prices
+                </span>
+                .
               </p>
             </Reveal>
-            <Reveal delay={0.3} className="mt-10" >
+            <Reveal delay={0.3} className="mt-10">
               <div id="access">
                 <RequestAccessForm />
               </div>
             </Reveal>
+            <Reveal delay={0.4}>
+              <div className="mt-9 flex flex-wrap gap-x-7 gap-y-3 text-[11px] text-warm-gray sm:text-xs">
+                <span>
+                  <b className="mr-1.5 font-pixel text-sm font-normal text-cream">
+                    300+
+                  </b>
+                  models
+                </span>
+                <span>
+                  <b className="mr-1.5 font-pixel text-sm font-normal text-cream">
+                    1
+                  </b>
+                  key, one bill
+                </span>
+                <span>
+                  <b className="mr-1.5 font-pixel text-sm font-normal text-cream">
+                    99.9%
+                  </b>
+                  uptime
+                </span>
+                <span>
+                  <b className="mr-1.5 font-pixel text-sm font-normal text-cream">
+                    5 min
+                  </b>
+                  to migrate
+                </span>
+              </div>
+            </Reveal>
           </div>
 
-          <div className="hidden justify-end lg:flex">
-            <PixelDiscount />
+          <div className="hidden items-center justify-center lg:flex">
+            <OrbitSystem />
           </div>
         </div>
       </section>

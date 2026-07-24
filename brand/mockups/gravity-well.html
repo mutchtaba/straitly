@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Straitly — Orbit v2</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#28292d;
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'JetBrains Mono', ui-monospace, Menlo, monospace;
+  overflow:hidden;
+}
+.stage {
+  position:relative;
+  width:720px; height:720px;
+}
+
+/* orbit ring lines (SVG, visible structure) */
+.rings {
+  position:absolute; left:0; top:0; width:100%; height:100%;
+}
+
+/* center compass */
+.compass {
+  position:absolute;
+  left:50%; top:50%;
+  width:110px; height:110px;
+  margin-left:-55px; margin-top:-55px;
+  display:flex; align-items:center; justify-content:center;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(183,127,90,.18), rgba(183,127,90,.05) 55%, transparent 72%);
+}
+.compass::before {
+  content:'';
+  position:absolute; inset:-30px; border-radius:50%;
+  background:radial-gradient(circle, rgba(183,127,90,.16), transparent 65%);
+  animation:halo 6s ease-in-out infinite;
+}
+@keyframes halo { 0%,100% { opacity:.6; transform:scale(1);} 50% { opacity:1; transform:scale(1.06);} }
+
+/* logo chips */
+.chip {
+  position:absolute; left:50%; top:50%;
+  width:56px; height:56px;
+  margin-left:-28px; margin-top:-28px;
+  display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(180deg, #35373c, #2b2d31);
+  border:1px solid rgba(154,148,139,.3);
+  border-radius:15px;
+  box-shadow:0 10px 28px rgba(0,0,0,.5), inset 0 1px 0 rgba(240,235,226,.08);
+  will-change:transform, opacity, filter;
+}
+.chip img { width:28px; height:28px; filter:invert(92%) sepia(6%) saturate(153%) hue-rotate(357deg) brightness(103%) contrast(89%); }
+</style>
+</head>
+<body>
+<div class="stage">
+  <svg class="rings" viewBox="0 0 720 720" id="ringsSvg" fill="none"></svg>
+
+  <div class="compass">
+    <svg width="72" height="72" viewBox="0 0 300 300">
+      <circle cx="150" cy="150" r="130" fill="none" stroke="#B77F5A" stroke-width="8"/>
+      <path d="M 234.57,65.43 L 172.06,172.06 L 127.94,127.94 Z" fill="#B77F5A"/>
+      <path d="M 65.43,234.57 L 172.06,172.06 L 127.94,127.94 Z M 83.36,216.64 L 161.68,170.73 L 129.27,138.32 Z" fill="#B77F5A" fill-rule="evenodd"/>
+    </svg>
+  </div>
+
+  <div id="orbits"></div>
+</div>
+
+<script>
+/*
+  Clean orbital system:
+  - compass locked center
+  - two tilted elliptical rings, drawn as visible lines
+  - inner ring clockwise, outer counter-clockwise, both VERY slow
+  - depth = scale + opacity + blur + z-index as chips pass front/back
+*/
+const SIZE = 720, C = SIZE / 2;
+const TILT = -12 * Math.PI / 180;
+
+const RINGS = [
+  { rx: 175, ry: 118, speed:  2 * Math.PI / 95,  logos: ['openai','claude','gemini','deepseek'] },
+  { rx: 292, ry: 198, speed: -2 * Math.PI / 150, logos: ['kimi','mistral','meta','grok','qwen'] },
+];
+
+/* draw ring paths */
+const svg = document.getElementById('ringsSvg');
+RINGS.forEach(r => {
+  const e = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+  e.setAttribute('cx', C); e.setAttribute('cy', C);
+  e.setAttribute('rx', r.rx); e.setAttribute('ry', r.ry);
+  e.setAttribute('transform', `rotate(${TILT * 180 / Math.PI} ${C} ${C})`);
+  e.setAttribute('stroke', '#9A948B');
+  e.setAttribute('stroke-opacity', '0.22');
+  e.setAttribute('stroke-width', '1');
+  e.setAttribute('stroke-dasharray', '3 6');
+  svg.appendChild(e);
+});
+
+/* chips */
+const orbits = document.getElementById('orbits');
+const chips = [];
+RINGS.forEach(ring => {
+  ring.logos.forEach((name, i) => {
+    const el = document.createElement('div');
+    el.className = 'chip';
+    el.innerHTML = `<img src="logos/${name}.svg" alt="${name}">`;
+    orbits.appendChild(el);
+    chips.push({ el, ring, phase: (i / ring.logos.length) * Math.PI * 2 });
+  });
+});
+
+function frame(now) {
+  const t = now / 1000;
+  chips.forEach(c => {
+    const a = c.phase + t * c.ring.speed;
+    const x0 = c.ring.rx * Math.cos(a);
+    const y0 = c.ring.ry * Math.sin(a);
+    const x = x0 * Math.cos(TILT) - y0 * Math.sin(TILT);
+    const y = x0 * Math.sin(TILT) + y0 * Math.cos(TILT);
+    const depth = Math.sin(a);                    // +1 front, -1 back
+    const f = (depth + 1) / 2;                    // 0..1
+    const scale = 0.78 + 0.32 * f;
+    const opacity = 0.45 + 0.55 * f;
+    const blur = (1 - f) * 1.6;
+    c.el.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+    c.el.style.opacity = opacity;
+    c.el.style.filter = blur > .25 ? `blur(${blur}px)` : 'none';
+    c.el.style.zIndex = depth > 0 ? 10 : 1;
+  });
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

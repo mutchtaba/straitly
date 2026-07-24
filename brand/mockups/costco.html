@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Costco section</title>
+<style>
+@font-face { font-family: 'Departure Mono'; src: url('../tmp/DepartureMono-1.500/DepartureMono-Regular.woff2') format('woff2'); }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:#313338; color:#F0EBE2; font-family:'JetBrains Mono', ui-monospace, Menlo, monospace; padding:80px 44px; }
+.sans { font-family:'Inter', -apple-system, 'Helvetica Neue', sans-serif; }
+.wrap { max-width:1100px; margin:0 auto; }
+.eyebrow { color:#9A948B; font-size:13px; letter-spacing:.25em; margin-bottom:18px; text-align:center; }
+h2 { font-size:38px; font-weight:700; text-align:center; letter-spacing:-0.02em; }
+h2 .accent { color:#B77F5A; }
+.diagram { margin:70px auto 0; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+.users { display:grid; grid-template-columns:repeat(3, 14px); gap:10px; }
+.users i { width:11px; height:11px; background:#9A948B; border-radius:2px; display:block; }
+.col-label { color:#9A948B; font-size:12px; margin-top:14px; text-align:center; line-height:1.5; }
+svg.flow { flex:1; }
+.pool { border:1px solid #B77F5A; color:#B77F5A; font-family:'Departure Mono'; padding:20px 26px; font-size:15px; text-align:center; line-height:1.6; }
+.labs { display:flex; flex-direction:column; gap:10px; }
+.lab { border:1px solid rgba(154,148,139,.35); color:#c9c4bb; padding:10px 20px; font-size:13px; text-align:center; }
+.back { text-align:center; margin-top:56px; }
+.back .arrow { font-family:'Departure Mono'; color:#B77F5A; font-size:22px; }
+.steps { display:flex; justify-content:center; gap:60px; margin-top:60px; }
+.step { max-width:250px; }
+.step .n { font-family:'Departure Mono'; color:#B77F5A; font-size:15px; margin-bottom:10px; }
+.step p { color:#9A948B; font-size:13px; line-height:1.6; }
+.step p b { color:#F0EBE2; font-weight:500; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">WHY IT&rsquo;S CHEAPER</div>
+  <h2 class="sans">We buy in bulk. <span class="accent">You pay less.</span></h2>
+  <div class="diagram">
+    <div>
+      <div class="users">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <div class="col-label">thousands of<br>$100/mo commits</div>
+    </div>
+    <svg class="flow" height="120" viewBox="0 0 300 120" preserveAsppectRatio="none">
+      <path d="M0,15 C150,15 150,60 300,60" stroke="#9A948B" fill="none" stroke-width="1"/>
+      <path d="M0,45 C150,45 150,60 300,60" stroke="#9A948B" fill="none" stroke-width="1"/>
+      <path d="M0,75 C150,75 150,60 300,60" stroke="#9A948B" fill="none" stroke-width="1"/>
+      <path d="M0,105 C150,105 150,60 300,60" stroke="#9A948B" fill="none" stroke-width="1"/>
+      <path d="M150,60 L300,60" stroke="#B77F5A" fill="none" stroke-width="4"/>
+    </svg>
+    <div>
+      <div class="pool">$10M+<br>pooled<br>commitment</div>
+    </div>
+    <svg class="flow" height="120" viewBox="0 0 300 120" preserveAspectRatio="none">
+      <path d="M0,60 L300,20" stroke="#B77F5A" fill="none" stroke-width="2"/>
+      <path d="M0,60 L300,60" stroke="#B77F5A" fill="none" stroke-width="2"/>
+      <path d="M0,60 L300,100" stroke="#B77F5A" fill="none" stroke-width="2"/>
+    </svg>
+    <div class="labs">
+      <div class="lab">OpenAI</div>
+      <div class="lab">Anthropic</div>
+      <div class="lab">Google</div>
+      <div class="lab">DeepSeek</div>
+    </div>
+  </div>
+  <div class="back">
+    <span class="arrow">&larr; volume discount flows back: &minus;10&ndash;25% on every request</span>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="n">01 / POOL</div><p><b>Labs discount bulk commitments</b> &mdash; the same committed-use deals behind AWS Reserved Instances.</p></div>
+    <div class="step"><div class="n">02 / COMMIT</div><p>We aggregate thousands of small prepaid commits into <b>one massive contract</b> per lab.</p></div>
+    <div class="step"><div class="n">03 / PASS BACK</div><p>The negotiated discount <b>flows back to you</b> on every token. We keep a small spread.</p></div>
+  </div>
+</div>
+</body>
+</html>
