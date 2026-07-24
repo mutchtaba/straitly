@@ -85,18 +85,18 @@ export function SavingsCounter() {
       ref={ref}
       className="flex flex-col items-center gap-10 sm:flex-row sm:justify-center sm:gap-16"
     >
-      <span className="whitespace-nowrap font-mono text-8xl font-bold tracking-tight text-terracotta sm:text-9xl">
-        -{value}%<span className="align-super text-4xl sm:text-5xl">*</span>
+      <span className="font-display text-8xl font-semibold leading-none text-terracotta sm:text-9xl">
+        -{value}%<span className="text-warm-gray">*</span>
       </span>
       <div className="max-w-xs text-center sm:text-left">
         <p className="font-pixel text-xs tracking-[0.25em] text-warm-gray">
-          OFF EVERY TOKEN
+          IN FEES
         </p>
         <p className="mt-3 text-lg leading-snug text-cream sm:text-xl">
-          Same models. Same latency. Just cheaper.
+          Save up to 25% on inference. Same models, same latency.
         </p>
         <p className="mt-4 text-xs leading-relaxed text-warm-gray">
-          *Save up to 25%, based on committed volume.
+          *varies by model and commitment tier
         </p>
       </div>
     </div>
