@@ -111,18 +111,19 @@ export default function CodeShowcase() {
           <span className={dim}>,</span>
           {"\n  "}
           <span className={fn}>messages</span>
-          <span className={dim}>:</span> <span className={dim}>[{"{"}</span>{" "}
-          <span className={fn}>role</span>
+          <span className={dim}>:</span> <span className={dim}>[</span>
+          {"\n    "}
+          <span className={dim}>{"{"}</span> <span className={fn}>role</span>
           <span className={dim}>:</span>{" "}
           <span className={str}>&quot;user&quot;</span>
-          <span className={dim}>,</span>
-          {"\n    "}
-          <span className={fn}>content</span>
+          <span className={dim}>,</span> <span className={fn}>content</span>
           <span className={dim}>:</span>{" "}
           <span className={str}>
             &quot;Why didn&apos;t I switch sooner?&quot;
           </span>{" "}
-          <span className={dim}>{"}]"},</span>
+          <span className={dim}>{"}"}</span>
+          {"\n  "}
+          <span className={dim}>],</span>
           {"\n"}
           <span className={dim}>{"})"};</span>
         </code>
