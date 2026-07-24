@@ -18,14 +18,14 @@ type Ring = {
 
 const RINGS: Ring[] = [
   {
-    rx: 200,
-    ry: 132,
+    rx: 182,
+    ry: 120,
     speed: (2 * Math.PI) / 95,
     logos: ["openai", "claude", "gemini", "deepseek"],
   },
   {
-    rx: 330,
-    ry: 220,
+    rx: 336,
+    ry: 226,
     speed: (-2 * Math.PI) / 150,
     logos: ["kimi", "mistral", "meta", "grok", "qwen"],
   },
@@ -124,9 +124,9 @@ export default function OrbitSystem() {
               <feDropShadow
                 dx="0"
                 dy="0"
-                stdDeviation="3.5"
+                stdDeviation="4.5"
                 floodColor="#F0EBE2"
-                floodOpacity="0.3"
+                floodOpacity="0.5"
               />
             </filter>
           </defs>
@@ -138,9 +138,9 @@ export default function OrbitSystem() {
               rx={r.rx}
               ry={r.ry}
               transform={`rotate(${(TILT * 180) / Math.PI} ${C} ${C})`}
-              stroke="#C9C4BB"
-              strokeOpacity="0.32"
-              strokeWidth="1"
+              stroke="#D8D3CA"
+              strokeOpacity="0.5"
+              strokeWidth="1.3"
               strokeDasharray="3 6"
               filter="url(#ringGlow)"
             />
@@ -148,8 +148,8 @@ export default function OrbitSystem() {
         </svg>
 
         {/* center compass with breathing halo */}
-        <div className="absolute left-1/2 top-1/2 flex h-32 w-32 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[radial-gradient(circle,rgba(183,127,90,0.18),rgba(183,127,90,0.05)_55%,transparent_72%)]">
-          <div className="animate-halo absolute -inset-8 rounded-full bg-[radial-gradient(circle,rgba(183,127,90,0.16),transparent_65%)]" />
+        <div className="absolute left-1/2 top-1/2 flex h-32 w-32 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[radial-gradient(circle,rgba(183,127,90,0.3),rgba(183,127,90,0.1)_55%,transparent_72%)]">
+          <div className="animate-halo absolute -inset-12 rounded-full bg-[radial-gradient(circle,rgba(183,127,90,0.28),transparent_65%)]" />
           <svg
             width="84"
             height="84"

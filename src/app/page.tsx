@@ -3,7 +3,7 @@ import Reveal from "@/components/Reveal";
 import RequestAccessForm from "@/components/RequestAccessForm";
 import OrbitSystem from "@/components/OrbitSystem";
 
-const CONTAINER = "mx-auto w-full max-w-[1280px] px-5 sm:px-6";
+const CONTAINER = "mx-auto w-full max-w-[1360px] px-6";
 
 export default function Home() {
   return (
@@ -14,8 +14,8 @@ export default function Home() {
             <Image
               src="/straitly-mark.svg"
               alt="Straitly compass logo"
-              width={26}
-              height={26}
+              width={34}
+              height={34}
               priority
             />
             <span className="font-pixel text-2xl font-bold tracking-wide text-cream">
@@ -37,20 +37,15 @@ export default function Home() {
         >
           <div>
             <Reveal>
-              <p className="mb-6 font-pixel text-xs tracking-[0.25em] text-warm-gray sm:text-sm">
-                ONE API &middot; EVERY FRONTIER MODEL
-              </p>
-            </Reveal>
-            <Reveal delay={0.1}>
               <h1 className="font-display text-6xl font-semibold leading-[1.0] text-cream sm:text-7xl xl:text-[92px]">
                 <span className="whitespace-nowrap">Wholesale API</span>
                 <br />
                 <span className="text-terracotta">for Tokens</span>
               </h1>
             </Reveal>
-            <Reveal delay={0.2}>
-              <p className="mt-7 max-w-md font-pixel text-base leading-relaxed text-warm-gray sm:text-lg">
-                We buy in bulk so you save money.
+            <Reveal delay={0.15}>
+              <p className="mt-7 font-pixel text-base tracking-[0.18em] text-warm-gray sm:text-lg">
+                ONE API &middot; EVERY FRONTIER MODEL
               </p>
             </Reveal>
             <Reveal delay={0.3} className="mt-10">
