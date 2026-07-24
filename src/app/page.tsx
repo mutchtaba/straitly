@@ -68,7 +68,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="flex min-h-screen items-center justify-center">
+      <section className="flex min-h-screen items-center justify-center pb-32 pt-0 sm:pb-40">
         <div className={CONTAINER}>
           <SavingsCounter />
         </div>

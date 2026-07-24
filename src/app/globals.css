@@ -51,7 +51,14 @@ html {
 }
 
 body {
-  background: var(--charcoal);
+  background:
+    linear-gradient(rgba(154, 148, 139, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(154, 148, 139, 0.05) 1px, transparent 1px),
+    var(--charcoal);
+  background-size:
+    56px 56px,
+    56px 56px,
+    auto;
   color: var(--cream);
   font-family: var(--font-jetbrains), monospace;
   -webkit-font-smoothing: antialiased;
