@@ -1,0 +1,537 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>straitly — coded panels v3</title>
+<style>
+  @font-face {
+    font-family: "Departure Mono";
+    src: url("../../public/fonts/DepartureMono-Regular.woff2") format("woff2");
+  }
+  body { margin: 0; padding: 36px 20px; background: #26282c; color: #f0ebe2; font-family: "Departure Mono", ui-monospace, monospace; }
+  h1 { font-size: 14px; letter-spacing: 0.2em; text-align: center; margin-bottom: 26px; color: #9a948b; }
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(560px, 1fr)); gap: 22px; max-width: 1820px; margin: 0 auto; }
+  figure { margin: 0; border: 1px solid rgba(154,148,139,0.25); border-radius: 12px; overflow: hidden; background: #313338; }
+  figure.hot { border-color: rgba(183,127,90,0.5); box-shadow: 0 0 70px rgba(183,127,90,0.14); }
+  figcaption { padding: 12px 16px; font-size: 11px; letter-spacing: 0.22em; color: #9a948b; border-bottom: 1px solid rgba(154,148,139,0.15); }
+  figure.hot figcaption { color: #cf9268; border-color: rgba(183,127,90,0.3); }
+  canvas { display: block; width: 100%; height: auto; }
+</style>
+</head>
+<body>
+<h1>CODED PANELS V3 — ISO CARTOON ENGINE</h1>
+<div class="row">
+  <figure>
+    <figcaption>&#9632; WITHOUT STRAITLY</figcaption>
+    <canvas id="cv-without" width="1280" height="1024"></canvas>
+  </figure>
+  <figure class="hot">
+    <figcaption>&#9632; WITH STRAITLY</figcaption>
+    <canvas id="cv-with" width="1280" height="1024"></canvas>
+  </figure>
+</div>
+
+<script>
+"use strict";
+// =====================================================================
+// straitly isometric cartoon engine v3
+//
+// Fixes over v2:
+//  - boxes now render their FRONT faces (a=w, b=d), not the back ones,
+//    so buildings read solid instead of inside-out
+//  - pipes attach to ports derived from real tower geometry, with
+//    flanges drawn over the wall so the joint reads as connected
+// =====================================================================
+const A30 = Math.PI / 6;
+const UX = { x: Math.cos(A30), y: Math.sin(A30) };   // +a : right & down
+const UY = { x: -Math.cos(A30), y: Math.sin(A30) };  // +b : left & down (toward viewer)
+
+const C = {
+  bg: "#313338",
+  concreteTop: "#5b616d", concreteL: "#464b55", concreteR: "#343841",
+  bodyTop: "#565c68", bodyL: "#414651", bodyR: "#31353d",
+  plinthTop: "#4c515b", plinthL: "#3a3e47", plinthR: "#2c2f36",
+  trim: "#666c78",
+  winLit: "#e0a271", winDim: "#4a443f",
+  pipeOut: "#1e2126", pipeCore: "#565c66", pipeHi: "rgba(255,255,255,0.13)",
+  cubeTop: "#d99a6c", cubeL: "#b77f5a", cubeR: "#8a5e42",
+  wood: "#7a5539", woodL: "#5f4029", woodR: "#4a3120",
+  metalTop: "#5e646f", metalL: "#484d57", metalR: "#373b43",
+  tag: "#f2ede4", tagEdge: "#cdc6ba", tagText: "#2a2c30",
+  cream: "#f0ebe2", gray: "#9a948b",
+  glow: "rgba(217,154,108,0.6)",
+};
+
+// ---------- iso primitives ----------
+function iso(O, a, b, z) {
+  return [O[0] + a * UX.x + b * UY.x, O[1] + a * UX.y + b * UY.y - z];
+}
+function poly(ctx, pts, fill, stroke = "rgba(16,18,22,0.55)", lw = 2) {
+  ctx.beginPath();
+  ctx.moveTo(pts[0][0], pts[0][1]);
+  for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+  ctx.closePath();
+  ctx.fillStyle = fill;
+  ctx.fill();
+  if (stroke) { ctx.lineJoin = "round"; ctx.lineWidth = lw; ctx.strokeStyle = stroke; ctx.stroke(); }
+}
+function vGrad(ctx, pts, top, bottom) {
+  let y0 = Infinity, y1 = -Infinity;
+  for (const p of pts) { y0 = Math.min(y0, p[1]); y1 = Math.max(y1, p[1]); }
+  const g = ctx.createLinearGradient(0, y0, 0, y1);
+  g.addColorStop(0, top); g.addColorStop(1, bottom);
+  return g;
+}
+function shade(hex, amt) {
+  const n = parseInt(hex.slice(1), 16);
+  const f = (s) => Math.max(0, Math.min(255, ((n >> s) & 255) + amt));
+  return `rgb(${f(16)},${f(8)},${f(0)})`;
+}
+// box with its three viewer-facing surfaces: top, front-left (b=d), front-right (a=w)
+function box(ctx, O, w, d, h, cTop, cL, cR, lw = 2) {
+  const top = [iso(O,0,0,h), iso(O,w,0,h), iso(O,w,d,h), iso(O,0,d,h)];
+  const left = [iso(O,0,d,h), iso(O,w,d,h), iso(O,w,d,0), iso(O,0,d,0)];
+  const right = [iso(O,w,0,h), iso(O,w,d,h), iso(O,w,d,0), iso(O,w,0,0)];
+  poly(ctx, top, cTop, "rgba(16,18,22,0.5)", lw);
+  poly(ctx, left, vGrad(ctx, left, shade(cL, 10), shade(cL, -16)), "rgba(16,18,22,0.55)", lw);
+  poly(ctx, right, vGrad(ctx, right, shade(cR, 8), shade(cR, -18)), "rgba(16,18,22,0.55)", lw);
+  // rim light along the top-front edges
+  ctx.beginPath();
+  ctx.moveTo(...iso(O,0,d,h)); ctx.lineTo(...iso(O,w,d,h)); ctx.lineTo(...iso(O,w,0,h));
+  ctx.strokeStyle = "rgba(255,255,255,0.12)"; ctx.lineWidth = 2; ctx.stroke();
+}
+// paint on the front-left wall (b = d): u runs along +a, v runs downward
+function onLeft(ctx, O, w, d, h, fn) {
+  const [e, f] = iso(O, 0, d, h);
+  ctx.save(); ctx.beginPath();
+  ctx.moveTo(...iso(O,0,d,h)); ctx.lineTo(...iso(O,w,d,h));
+  ctx.lineTo(...iso(O,w,d,0)); ctx.lineTo(...iso(O,0,d,0)); ctx.closePath(); ctx.clip();
+  ctx.transform(UX.x, UX.y, 0, 1, e, f);
+  fn(w, h);
+  ctx.restore();
+}
+// paint on the front-right wall (a = w): u runs along +b, v runs downward
+function onRight(ctx, O, w, d, h, fn) {
+  const [e, f] = iso(O, w, 0, h);
+  ctx.save(); ctx.beginPath();
+  ctx.moveTo(...iso(O,w,0,h)); ctx.lineTo(...iso(O,w,d,h));
+  ctx.lineTo(...iso(O,w,d,0)); ctx.lineTo(...iso(O,w,0,0)); ctx.closePath(); ctx.clip();
+  ctx.transform(UY.x, UY.y, 0, 1, e, f);
+  fn(d, h);
+  ctx.restore();
+}
+function groundShadow(ctx, cx, cy, rx, ry, alpha = 0.24) {
+  const g = ctx.createRadialGradient(cx, cy, 1, cx, cy, rx);
+  g.addColorStop(0, `rgba(0,0,0,${alpha})`);
+  g.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.save(); ctx.translate(cx, cy); ctx.scale(1, ry / rx); ctx.translate(-cx, -cy);
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, rx, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+function warmPool(ctx, cx, cy, r, strength) {
+  const g = ctx.createRadialGradient(cx, cy, 1, cx, cy, r);
+  g.addColorStop(0, `rgba(217,154,108,${strength})`);
+  g.addColorStop(1, "rgba(217,154,108,0)");
+  ctx.save(); ctx.translate(cx, cy); ctx.scale(1, 0.42); ctx.translate(-cx, -cy);
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+
+// ---------- routed pipe ----------
+function route(pts, radius = 46) {
+  const s = [[pts[0][0], pts[0][1]]];
+  for (let i = 1; i < pts.length - 1; i++) {
+    const p = pts[i], a = pts[i - 1], b = pts[i + 1];
+    const va = Math.hypot(p[0]-a[0], p[1]-a[1]), vb = Math.hypot(b[0]-p[0], b[1]-p[1]);
+    const ra = Math.min(radius, va * 0.45), rb = Math.min(radius, vb * 0.45);
+    const s0 = [p[0] + (a[0]-p[0]) / va * ra, p[1] + (a[1]-p[1]) / va * ra];
+    const s1 = [p[0] + (b[0]-p[0]) / vb * rb, p[1] + (b[1]-p[1]) / vb * rb];
+    s.push(s0);
+    for (let k = 1; k <= 14; k++) {
+      const t = k / 14, u = 1 - t;
+      s.push([u*u*s0[0] + 2*u*t*p[0] + t*t*s1[0], u*u*s0[1] + 2*u*t*p[1] + t*t*s1[1]]);
+    }
+  }
+  s.push([pts[pts.length-1][0], pts[pts.length-1][1]]);
+  const cum = [0];
+  for (let i = 1; i < s.length; i++) cum.push(cum[i-1] + Math.hypot(s[i][0]-s[i-1][0], s[i][1]-s[i-1][1]));
+  const len = cum[cum.length-1];
+  const idxAt = (d) => {
+    d = ((d % len) + len) % len;
+    let lo = 0, hi = cum.length - 1;
+    while (lo < hi) { const m = (lo + hi) >> 1; cum[m] < d ? lo = m + 1 : hi = m; }
+    return lo;
+  };
+  return {
+    len, samples: s,
+    at(d) { return s[idxAt(d)]; },
+    tangentAt(d) {
+      const i = Math.min(s.length - 2, Math.max(0, idxAt(d)));
+      const dx = s[i+1][0] - s[i][0], dy = s[i+1][1] - s[i][1];
+      const m = Math.hypot(dx, dy) || 1;
+      return [dx / m, dy / m];
+    },
+    trace(ctx) {
+      ctx.beginPath();
+      ctx.moveTo(s[0][0], s[0][1]);
+      for (const p of s) ctx.lineTo(p[0], p[1]);
+    },
+  };
+}
+function strokeAlong(ctx, path, width, color, dy = 0) {
+  ctx.save(); ctx.translate(0, dy);
+  path.trace(ctx);
+  ctx.lineCap = "round"; ctx.lineJoin = "round";
+  ctx.lineWidth = width; ctx.strokeStyle = color; ctx.stroke();
+  ctx.restore();
+}
+function drawPipe(ctx, path, width) {
+  strokeAlong(ctx, path, width + 10, "rgba(0,0,0,0.18)", width * 0.5);
+  strokeAlong(ctx, path, width + 6, C.pipeOut);
+  strokeAlong(ctx, path, width, C.pipeCore);
+  strokeAlong(ctx, path, Math.max(1.6, width * 0.26), C.pipeHi, -width * 0.24);
+  const step = Math.max(70, width * 7);
+  for (let d = step * 0.6; d < path.len - 8; d += step) {
+    const [x, y] = path.at(d), [tx, ty] = path.tangentAt(d);
+    ctx.save(); ctx.translate(x, y); ctx.rotate(Math.atan2(ty, tx));
+    ctx.fillStyle = "#61677234"; 
+    ctx.fillStyle = "rgba(120,128,140,0.85)";
+    ctx.strokeStyle = C.pipeOut; ctx.lineWidth = 1.6;
+    const cw = Math.max(5, width * 0.22), ch = width + 7;
+    ctx.beginPath(); ctx.rect(-cw / 2, -ch / 2, cw, ch); ctx.fill(); ctx.stroke();
+    ctx.restore();
+  }
+}
+function flowDots(ctx, path, t, speed, count, phase, r) {
+  for (let i = 0; i < count; i++) {
+    const [x, y] = path.at(t * speed + phase + (i * path.len) / count);
+    ctx.save();
+    ctx.shadowColor = C.glow; ctx.shadowBlur = 16;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fillStyle = "#f0b482"; ctx.fill();
+    ctx.restore();
+  }
+}
+// flange drawn AFTER the building so the pipe visibly enters the wall
+function flange(ctx, x, y, size) {
+  ctx.save(); ctx.translate(x, y);
+  poly(ctx, [[-size, -size*0.5], [0, -size], [size, -size*0.5], [size, size*0.45], [0, size*0.9], [-size, size*0.45]],
+       "#5a606b", C.pipeOut, 2);
+  ctx.beginPath(); ctx.ellipse(0, 0, size * 0.42, size * 0.3, 0, 0, Math.PI * 2);
+  ctx.fillStyle = "#23262b"; ctx.fill();
+  ctx.restore();
+}
+
+// ---------- buildings ----------
+function tower(ctx, fx, fy, w, h, t, logo, seed) {
+  const d = w;
+  const O = [fx - (w * UX.x + d * UY.x), fy - (w * UX.y + d * UY.y)];
+  const cx = fx, cy = fy;
+  groundShadow(ctx, cx - w * 0.1, cy + 8, w * 1.5, w * 0.55, 0.3);
+
+  const Op = iso(O, -11, -11, 0);
+  box(ctx, Op, w + 22, d + 22, 20, C.plinthTop, C.plinthL, C.plinthR);
+
+  const Ob = iso(O, 0, 0, 20);
+  box(ctx, Ob, w, d, h, C.bodyTop, C.bodyL, C.bodyR);
+
+  // logo plate + windows on the front-left wall
+  onLeft(ctx, Ob, w, d, h, (fw, fh) => {
+    const pad = 13, plate = fw - pad * 2;
+    ctx.fillStyle = "#20232a"; ctx.fillRect(pad, 16, plate, plate);
+    ctx.strokeStyle = "rgba(217,154,108,0.55)"; ctx.lineWidth = 2.5;
+    ctx.strokeRect(pad, 16, plate, plate);
+    if (logo) {
+      ctx.save(); ctx.shadowColor = C.glow; ctx.shadowBlur = 18;
+      ctx.drawImage(logo, pad + plate * 0.16, 16 + plate * 0.16, plate * 0.68, plate * 0.68);
+      ctx.restore();
+    }
+    const top = 16 + plate + 22;
+    for (let row = 0; row * 34 + top < fh - 30; row++) {
+      for (let col = 0; col * 26 + 14 < fw - 20; col++) {
+        const x = 14 + col * 26, y = top + row * 34;
+        const lit = Math.sin(t / 95 + (col * 3.1 + row * 1.7 + seed * 2.4)) > -0.5;
+        ctx.fillStyle = lit ? C.winLit : C.winDim;
+        ctx.globalAlpha = lit ? 0.62 + 0.38 * Math.abs(Math.sin(t / 80 + col + row)) : 1;
+        ctx.fillRect(x, y, 13, 19);
+        ctx.globalAlpha = 1;
+      }
+    }
+  });
+  // vents + windows on the front-right wall
+  onRight(ctx, Ob, w, d, h, (fw, fh) => {
+    ctx.fillStyle = "rgba(0,0,0,0.16)";
+    for (let col = 0; col * 30 + 16 < fw - 12; col++) ctx.fillRect(16 + col * 30, 14, 11, fh - 26);
+    for (let row = 0; row * 34 + 40 < fh - 30; row++) {
+      for (let col = 0; col * 30 + 30 < fw - 14; col++) {
+        const lit = Math.sin(t / 88 + (col * 2.3 + row * 2.9 + seed)) > -0.15;
+        ctx.fillStyle = lit ? C.winLit : C.winDim;
+        ctx.globalAlpha = lit ? 0.5 + 0.3 * Math.abs(Math.sin(t / 90 + row)) : 1;
+        ctx.fillRect(30 + col * 30, 40 + row * 34, 10, 17);
+        ctx.globalAlpha = 1;
+      }
+    }
+  });
+
+  // cornice + roof gear
+  const Oc = iso(O, -7, -7, 20 + h);
+  box(ctx, Oc, w + 14, d + 14, 15, C.concreteTop, C.concreteL, C.concreteR);
+  const Or = iso(O, w * 0.16, d * 0.2, 20 + h + 15);
+  box(ctx, Or, w * 0.34, d * 0.32, 26, C.metalTop, C.metalL, C.metalR, 1.6);
+  const Or2 = iso(O, w * 0.58, d * 0.3, 20 + h + 15);
+  box(ctx, Or2, w * 0.24, d * 0.24, 17, C.metalTop, C.metalL, C.metalR, 1.6);
+  const mast = iso(O, w * 0.44, d * 0.72, 20 + h + 15);
+  ctx.beginPath(); ctx.moveTo(mast[0], mast[1]); ctx.lineTo(mast[0], mast[1] - 46);
+  ctx.strokeStyle = "#6a707b"; ctx.lineWidth = 3; ctx.stroke();
+  ctx.beginPath(); ctx.arc(mast[0], mast[1] - 50, 4, 0, Math.PI * 2);
+  ctx.fillStyle = Math.sin(t / 22) > 0 ? "#e8845c" : "#5a3f34"; ctx.fill();
+
+  warmPool(ctx, cx - w * 0.1, cy + 10, w * 1.5, 0.1);
+  return { port: [fx, fy - 30] };
+}
+
+function desk(ctx, fx, fy, t, s = 1, seed = 0) {
+  const w = 116 * s, d = 68 * s, legH = 40 * s;
+  const O = [fx - (w * UX.x + d * UY.x), fy - (w * UX.y + d * UY.y)];
+  groundShadow(ctx, fx - w * 0.12, fy + 4, w * 0.95, w * 0.3, 0.26);
+  // legs
+  [[6, 8], [w - 16, 8], [6, d - 16], [w - 16, d - 16]].forEach(([a, b]) => {
+    box(ctx, iso(O, a, b, 0), 9 * s, 9 * s, legH, "#3d424b", "#33373f", "#282c32", 1.4);
+  });
+  // top slab
+  const Ot = iso(O, 0, 0, legH);
+  box(ctx, Ot, w, d, 9 * s, "#5d636e", "#494e58", "#383c44");
+  const deckZ = legH + 9 * s;
+  // monitor
+  const Om = iso(O, w * 0.3, d * 0.66, deckZ);
+  box(ctx, Om, 52 * s, 7 * s, 38 * s, "#2b2e34", "#25282d", "#1e2126", 1.6);
+  onLeft(ctx, Om, 52 * s, 7 * s, 38 * s, (fw, fh) => {
+    const flick = 0.72 + 0.28 * Math.abs(Math.sin(t / 15 + seed));
+    ctx.fillStyle = `rgba(224,162,113,${0.85 * flick})`;
+    ctx.fillRect(4, 4, fw - 8, fh - 9);
+    ctx.fillStyle = "rgba(49,51,56,0.55)";
+    for (let i = 0; i < 4; i++) ctx.fillRect(8, 10 + i * 7, (fw - 22) * (0.35 + 0.5 * Math.abs(Math.sin(i + seed))), 3);
+  });
+  // keyboard
+  box(ctx, iso(O, w * 0.22, d * 0.16, deckZ), 40 * s, 16 * s, 4 * s, "#4a4f59", "#3c414a", "#2f333a", 1.3);
+  // chair
+  const Och = iso(O, w * 0.34, -46 * s, 0);
+  box(ctx, Och, 34 * s, 32 * s, 20 * s, "#3a3f48", "#31353d", "#272a30", 1.4);
+  box(ctx, iso(O, w * 0.34, -46 * s, 20 * s), 34 * s, 8 * s, 34 * s, "#3f444d", "#353941", "#2a2d33", 1.4);
+  return { deckZ, O, w, d, intake: [fx - w * 0.98, fy - legH * 0.6] };
+}
+
+function amberCube(ctx, O, s, glow = 0) {
+  if (glow > 0) {
+    const [gx, gy] = iso(O, s / 2, s / 2, s * 0.6);
+    const g = ctx.createRadialGradient(gx, gy, 2, gx, gy, s * 2.6);
+    g.addColorStop(0, `rgba(217,154,108,${0.34 * glow})`);
+    g.addColorStop(1, "rgba(217,154,108,0)");
+    ctx.fillStyle = g; ctx.fillRect(gx - s * 2.6, gy - s * 2.6, s * 5.2, s * 5.2);
+  }
+  box(ctx, O, s, s, s, C.cubeTop, C.cubeL, C.cubeR, 1.8);
+  onLeft(ctx, O, s, s, s, (fw, fh) => {
+    ctx.strokeStyle = "rgba(255,255,255,0.16)"; ctx.lineWidth = 1.4;
+    ctx.strokeRect(fw * 0.22, fh * 0.22, fw * 0.56, fh * 0.56);
+  });
+}
+
+function tag(ctx, x, y, w, h, label, font, rot = -0.07) {
+  ctx.save();
+  ctx.translate(x, y); ctx.rotate(rot);
+  const notch = h * 0.32;
+  ctx.beginPath();
+  ctx.moveTo(notch, 0); ctx.lineTo(w - h * 0.12, 0);
+  ctx.quadraticCurveTo(w, 0, w, h * 0.14);
+  ctx.lineTo(w, h * 0.86);
+  ctx.quadraticCurveTo(w, h, w - h * 0.12, h);
+  ctx.lineTo(notch, h); ctx.lineTo(0, h / 2); ctx.closePath();
+  ctx.fillStyle = ctx.createLinearGradient(0, 0, 0, h);
+  const g = ctx.createLinearGradient(0, 0, 0, h);
+  g.addColorStop(0, "#f7f3ec"); g.addColorStop(1, "#ded7ca");
+  ctx.fillStyle = g; ctx.fill();
+  ctx.lineWidth = 3; ctx.strokeStyle = "rgba(38,40,44,0.75)"; ctx.stroke();
+  ctx.beginPath(); ctx.arc(notch * 0.8, h / 2, h * 0.07, 0, Math.PI * 2);
+  ctx.fillStyle = "#2a2c30"; ctx.fill();
+  ctx.fillStyle = C.tagText;
+  ctx.font = `${font}px "Departure Mono", monospace`;
+  ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillText(label, notch + (w - notch) / 2, h / 2 + font * 0.04);
+  ctx.restore();
+}
+function cord(ctx, x1, y1, x2, y2, sag) {
+  ctx.beginPath(); ctx.moveTo(x1, y1);
+  ctx.quadraticCurveTo((x1 + x2) / 2, Math.max(y1, y2) + sag, x2, y2);
+  ctx.strokeStyle = "rgba(154,148,139,0.85)"; ctx.lineWidth = 2.6; ctx.stroke();
+}
+
+// ---------- shared staging: towers on a down-left diagonal ----------
+const TOWERS = [
+  { fx: 486, fy: 402, w: 100, h: 262 },
+  { fx: 334, fy: 560, w: 108, h: 288 },
+  { fx: 182, fy: 718, w: 116, h: 312 },
+];
+const PORTS = TOWERS.map((tw) => [tw.fx, tw.fy - 30]);
+
+async function loadLogo(url, color) {
+  const svg = new DOMParser().parseFromString(await (await fetch(url)).text(), "image/svg+xml").documentElement;
+  svg.setAttribute("width", "512"); svg.setAttribute("height", "512");
+  if (color) svg.setAttribute("color", color);
+  const img = new Image();
+  img.src = URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(svg)], { type: "image/svg+xml" }));
+  await img.decode();
+  return img;
+}
+
+// =====================================================================
+// PANEL 1 — WITHOUT: three retail lines, one desk, monster tag
+// =====================================================================
+function makeWithout(logos) {
+  const deskIntake = [876, 664];
+  const pipes = [
+    route([PORTS[0], [652, 406], [790, 530], deskIntake]),
+    route([PORTS[1], [562, 568], [764, 616], deskIntake]),
+    route([PORTS[2], [432, 732], [702, 708], deskIntake]),
+  ];
+  return (ctx, t) => {
+    ctx.fillStyle = C.bg; ctx.fillRect(0, 0, 1280, 1024);
+    pipes.forEach((p) => drawPipe(ctx, p, 9));
+    pipes.forEach((p, i) => flowDots(ctx, p, t, 1.5, 2, i * 130, 4.5));
+    TOWERS.forEach((tw, i) => tower(ctx, tw.fx, tw.fy, tw.w, tw.h, t, logos[i], i));
+    PORTS.forEach(([x, y]) => flange(ctx, x, y, 15));
+    const dk = desk(ctx, 992, 708, t, 1.22, 1);
+    flange(ctx, deskIntake[0] + 8, deskIntake[1], 13);
+    const pulse = 0.55 + 0.45 * Math.sin(t / 38);
+    const cubeO = iso(dk.O, dk.w * 0.66, dk.d * 0.34, dk.deckZ);
+    amberCube(ctx, cubeO, 24, pulse);
+    tag(ctx, 766, 806, 356, 178, "$$$", 118, -0.05);
+    cord(ctx, cubeO[0] + 6, cubeO[1] + 14, 806, 884, 38);
+  };
+}
+
+// =====================================================================
+// PANEL 2 — WITH: three thick lines merge, bulk pallet, thin lines out
+// =====================================================================
+function makeWith(logos, mark) {
+  const junction = [612, 650];
+  const palletIn = [766, 708];
+  const inPipes = [
+    route([PORTS[0], [604, 424], [644, 562], junction]),
+    route([PORTS[1], [474, 562], junction]),
+    route([PORTS[2], [344, 702], [504, 678], junction]),
+  ];
+  const main = route([junction, palletIn]);
+  const deskSpots = [[1152, 372], [1172, 636], [1152, 898]];
+  const palletOut = [962, 750];
+  const outWays = [
+    [[1070, 704], [1080, 486]],
+    [[1044, 726]],
+    [[1032, 802]],
+  ];
+  const outPipes = deskSpots.map(([dx, dy], i) =>
+    route([palletOut, ...outWays[i], [dx - 91, dy - 20]])
+  );
+  return (ctx, t) => {
+    ctx.fillStyle = C.bg; ctx.fillRect(0, 0, 1280, 1024);
+    inPipes.forEach((p) => drawPipe(ctx, p, 19));
+    drawPipe(ctx, main, 27);
+    outPipes.forEach((p) => drawPipe(ctx, p, 6));
+    inPipes.forEach((p, i) => flowDots(ctx, p, t, 1.7, 2, i * 95, 6));
+    flowDots(ctx, main, t, 1.7, 2, 0, 6.5);
+    outPipes.forEach((p, i) => flowDots(ctx, p, t, 1.4, 2, i * 80, 3.8));
+    TOWERS.forEach((tw, i) => tower(ctx, tw.fx, tw.fy, tw.w, tw.h, t, logos[i], i));
+    PORTS.forEach(([x, y]) => flange(ctx, x, y, 15));
+    flange(ctx, junction[0], junction[1], 19);
+
+    // ---- bulk pallet ----
+    const s = 42, cols = 4, rows = 2, lvls = 3;
+    const pw = cols * s, pd = rows * s;
+    const pfx = 900, pfy = 832;
+    const O = [pfx - (pw * UX.x + pd * UY.x), pfy - (pw * UX.y + pd * UY.y)];
+    const pulse = 0.55 + 0.45 * Math.sin(t / 34);
+    const [gx, gy] = iso(O, pw / 2, pd / 2, 90);
+    warmPool(ctx, gx, pfy - 6, 250, 0.15 + 0.07 * pulse);
+    groundShadow(ctx, gx, pfy + 6, 190, 62, 0.3);
+    // pallet deck
+    box(ctx, iso(O, -10, -10, 0), pw + 20, pd + 20, 9, C.wood, C.woodL, C.woodR, 1.8);
+    for (let i = 0; i < cols + 1; i++) {
+      box(ctx, iso(O, -6 + i * (pw / cols) * 0.98, -6, 9), 13, pd + 12, 7, "#6d4a31", "#563922", "#42291a", 1.2);
+    }
+    // cube stack, painter-ordered
+    const cells = [];
+    for (let a = 0; a < cols; a++) for (let b = 0; b < rows; b++) for (let z = 0; z < lvls; z++) cells.push([a, b, z]);
+    cells.sort((p, q) => (p[0] + p[1]) - (q[0] + q[1]) || p[2] - q[2]);
+    for (const [a, b, z] of cells) {
+      const hot = z === lvls - 1 && a === 1 && b === rows - 1;
+      amberCube(ctx, iso(O, a * s, b * s, 16 + z * s), s, hot ? pulse * 0.8 : 0);
+    }
+    // straps over the front-left face
+    [0.9, 2.9].forEach((a) => {
+      const top = iso(O, a * s, pd, 16 + lvls * s), bot = iso(O, a * s, pd, 2);
+      ctx.beginPath(); ctx.moveTo(top[0], top[1]); ctx.lineTo(bot[0], bot[1]);
+      ctx.strokeStyle = "#26282d"; ctx.lineWidth = 8; ctx.stroke();
+      ctx.strokeStyle = "rgba(255,255,255,0.08)"; ctx.lineWidth = 2; ctx.stroke();
+    });
+    flange(ctx, palletIn[0] + 10, palletIn[1] + 2, 15);
+    flange(ctx, palletOut[0] - 12, palletOut[1] - 2, 12);
+
+    // $$ tag leaning against the pallet's left edge
+    tag(ctx, 624, 762, 176, 100, "$$", 62, -0.13);
+
+    // straitly marker planted on top of the bulk load
+    const [sx, sy] = iso(O, pw / 2, pd / 2, 16 + lvls * s);
+    ctx.fillStyle = "#2b2e34"; ctx.fillRect(sx - 4, sy - 58, 8, 60);
+    ctx.beginPath(); ctx.arc(sx, sy - 92, 36, 0, Math.PI * 2);
+    ctx.fillStyle = "#22252b"; ctx.fill();
+    ctx.lineWidth = 3.5; ctx.strokeStyle = "rgba(183,127,90,0.9)"; ctx.stroke();
+    if (mark) {
+      ctx.save(); ctx.shadowColor = C.glow; ctx.shadowBlur = 20;
+      ctx.drawImage(mark, sx - 26, sy - 118, 52, 52);
+      ctx.restore();
+    }
+
+    // caption floating in clear air
+    ctx.save();
+    ctx.font = '27px "Departure Mono", monospace';
+    ctx.letterSpacing = "5px";
+    ctx.textAlign = "center";
+    ctx.fillStyle = C.cream;
+    ctx.shadowColor = "rgba(217,154,108,0.4)"; ctx.shadowBlur = 14;
+    ctx.fillText("WE BUY IN BULK", 892, 428);
+    ctx.fillText("AT A DISCOUNT", 892, 466);
+    ctx.restore();
+
+    // three cheap desks
+    deskSpots.forEach(([dx, dy], i) => {
+      const dk = desk(ctx, dx, dy, t, 0.8, i * 2 + 1);
+      const cO = iso(dk.O, dk.w * 0.64, dk.d * 0.34, dk.deckZ);
+      amberCube(ctx, cO, 17, 0.45 + 0.45 * Math.abs(Math.sin(t / 44 + i)));
+      const [tx, ty] = iso(dk.O, dk.w * 0.44, dk.d * 1.02, dk.deckZ);
+      tag(ctx, tx, ty, 58, 36, "$", 24, -0.1);
+    });
+  };
+}
+
+// =====================================================================
+(async () => {
+  const [openai, anthropic, xai, mark] = await Promise.all([
+    loadLogo("../../public/logos/openai.svg", "#f0ebe2"),
+    loadLogo("../../public/logos/claude.svg", "#f0ebe2"),
+    loadLogo("../../public/logos/grok.svg", "#f0ebe2"),
+    loadLogo("../../public/straitly-mark.svg"),
+  ]);
+  try { await document.fonts.load('27px "Departure Mono"'); } catch (e) {}
+  const logos = [openai, anthropic, xai];
+  const scenes = [
+    [document.getElementById("cv-without").getContext("2d"), makeWithout(logos)],
+    [document.getElementById("cv-with").getContext("2d"), makeWith(logos, mark)],
+  ];
+  let t = 0;
+  (function loop() {
+    if (!document.hidden) { t++; for (const [ctx, draw] of scenes) draw(ctx, t); }
+    requestAnimationFrame(loop);
+  })();
+})();
+</script>
+</body>
+</html>

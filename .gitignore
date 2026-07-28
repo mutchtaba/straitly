@@ -43,3 +43,8 @@ node_modules/
 .next/
 .netlify/
 brand/tmp/
+
+# generated image-gen artifacts (regenerable; API key lives in .env above)
+brand/imagegen/out/
+brand/imagegen/refs/
+brand/imagegen/*.log

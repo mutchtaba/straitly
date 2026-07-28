@@ -3,7 +3,7 @@ import Reveal from "@/components/Reveal";
 import OrbitSystem from "@/components/OrbitSystem";
 import CodeShowcase from "@/components/CodeShowcase";
 import { TrustedBy } from "@/components/SocialProof";
-import PricingLadder from "@/components/PricingLadder";
+import DealCompare from "@/components/DealCompare";
 
 const CONTAINER = "mx-auto w-full max-w-[1360px] px-6";
 
@@ -71,7 +71,7 @@ export default function Home() {
 
       <section className="py-32 sm:py-44">
         <div className={CONTAINER}>
-          <PricingLadder />
+          <DealCompare />
         </div>
       </section>
 
