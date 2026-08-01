@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>A — Zero fees</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Handjet:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css" />
+<style>
+  .hero { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 64px; align-items: center; padding: 76px 0 64px; }
+  h1 { font-size: 92px; margin: 0; }
+  .sub { font-family: "Departure Mono", monospace; font-size: 15px; letter-spacing: 0.17em; color: var(--gray); margin-top: 26px; }
+  .cta { display: flex; gap: 14px; margin-top: 38px; }
+  .calc { padding: 26px 28px 30px; }
+  .calc .head { display: flex; justify-content: space-between; align-items: baseline; }
+  .spend { font-family: "Handjet", sans-serif; font-weight: 600; font-size: 46px; line-height: 1; }
+  input[type=range] { -webkit-appearance: none; width: 100%; height: 3px; background: rgba(154,148,139,0.28); margin: 26px 0 22px; }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 17px; height: 17px; border-radius: 50%; background: var(--terra2); box-shadow: 0 0 14px rgba(207,146,104,0.7); cursor: pointer; }
+  .rows { display: flex; flex-direction: column; gap: 1px; background: rgba(154,148,139,0.14); border: 1px solid rgba(154,148,139,0.14); border-radius: 8px; overflow: hidden; }
+  .r { display: flex; justify-content: space-between; align-items: center; padding: 15px 17px; background: #26282c; font-size: 13.5px; }
+  .r.them .amt { color: #d98c76; }
+  .r.us { background: rgba(183,127,90,0.11); }
+  .r.us .amt { color: var(--terra2); }
+  .r .who { color: var(--gray); }
+  .amt { font-family: "JetBrains Mono", monospace; font-size: 15px; }
+  .keep { margin-top: 20px; text-align: center; font-family: "Departure Mono", monospace; font-size: 13px; letter-spacing: 0.14em; }
+  .keep b { color: var(--terra2); font-size: 21px; }
+</style>
+</head>
+<body>
+<div class="label">VERSION A · PRICE-LED</div>
+<nav><div class="wrap inner">
+  <div class="brand"><img src="/public/straitly-mark.svg" alt=""><span>straitly</span></div>
+  <div class="links"><a href="#">Models</a><a href="#">Docs</a><a href="#">Pricing</a><a class="btn" href="#">Get API key</a></div>
+</div></nav>
+
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <h1 class="display">Every model.<br><span class="terra">Zero fees.</span></h1>
+      <div class="sub">YOU PAY THE PROVIDER'S PRICE. WE TAKE NOTHING.</div>
+      <p style="color:var(--gray);font-size:14.5px;line-height:1.75;margin-top:22px;max-width:44ch">
+        One OpenAI-compatible endpoint for every frontier model. No credit-purchase fee,
+        no markup, no payment-processing skim — the exact rate the provider publishes.
+      </p>
+      <div class="cta">
+        <a class="btn btn-solid" href="#">Get an API key</a>
+        <a class="btn" href="#">Read the docs</a>
+      </div>
+    </div>
+
+    <div class="card hot calc">
+      <div class="head">
+        <div class="eyebrow">YOUR MONTHLY SPEND</div>
+        <div class="mono-sm"><span class="dot"></span> live math</div>
+      </div>
+      <div class="spend" id="spend">$10,000</div>
+      <input type="range" min="500" max="50000" step="500" value="10000" id="sl" />
+      <div class="rows">
+        <div class="r them"><span class="who">OpenRouter &mdash; 5.5% credit fee</span><span class="amt" id="or">$10,550</span></div>
+        <div class="r them"><span class="who">Typical card processing</span><span class="amt" id="pp">$10,290</span></div>
+        <div class="r us"><span class="who" style="color:var(--cream)">Straitly &mdash; 0%</span><span class="amt" id="st">$10,000</span></div>
+      </div>
+      <div class="keep">YOU KEEP <b id="keep">$550</b> / MONTH</div>
+    </div>
+  </div>
+
+  <div class="statrow">
+    <div class="s"><div class="num terra2">0%</div><div class="lab">PLATFORM FEE</div></div>
+    <div class="s"><div class="num">412</div><div class="lab">MODELS</div></div>
+    <div class="s"><div class="num">68</div><div class="lab">PROVIDERS</div></div>
+    <div class="s"><div class="num">7<span style="font-size:22px">ms</span></div><div class="lab">ADDED LATENCY p50</div></div>
+  </div>
+</div>
+
+<script>
+  const f = (n) => "$" + n.toLocaleString("en-US");
+  const sl = document.getElementById("sl");
+  function upd() {
+    const v = +sl.value;
+    document.getElementById("spend").textContent = f(v);
+    document.getElementById("or").textContent = f(Math.round(v * 1.055));
+    document.getElementById("pp").textContent = f(Math.round(v * 1.029));
+    document.getElementById("st").textContent = f(v);
+    document.getElementById("keep").textContent = f(Math.round(v * 0.055));
+  }
+  sl.addEventListener("input", upd); upd();
+</script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>D — Control room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Handjet:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css" />
+<style>
+  .top { padding: 62px 0 34px; display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; }
+  h1 { font-size: 74px; margin: 0; }
+  .sub { font-family: "Departure Mono", monospace; font-size: 13px; letter-spacing: 0.18em; color: var(--gray); margin-top: 18px; }
+  .cta { display: flex; gap: 12px; }
+  .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 14px; padding-bottom: 40px; }
+  .tile { padding: 20px 22px; }
+  .tile .hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .big { font-family: "Handjet", sans-serif; font-weight: 600; font-size: 62px; line-height: 0.9; }
+  .t-lat { grid-column: span 4; } .t-fee { grid-column: span 4; } .t-cat { grid-column: span 4; }
+  .t-code { grid-column: span 7; } .t-board { grid-column: span 5; }
+  .bar { display: grid; grid-template-columns: 118px 1fr 60px; align-items: center; gap: 12px; margin-bottom: 11px; }
+  .bar .n { font-size: 12px; color: var(--gray); }
+  .bar .track { height: 9px; background: rgba(154,148,139,0.1); border-radius: 3px; overflow: hidden; }
+  .bar .fill { height: 100%; border-radius: 3px; }
+  .bar .ms { font-size: 12px; text-align: right; }
+  .us .fill { background: linear-gradient(90deg, var(--terra), var(--terra2)); box-shadow: 0 0 14px rgba(207,146,104,0.5); }
+  .us .n, .us .ms { color: var(--cream); }
+  .them .fill { background: #4c515b; }
+  .spark { display: flex; align-items: flex-end; gap: 3px; height: 40px; margin-top: 14px; }
+  .spark i { width: 4px; background: rgba(207,146,104,0.5); border-radius: 1px; display: block; }
+  .logos { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
+  .logos img { width: 19px; height: 19px; opacity: 0.72; filter: brightness(0) saturate(100%) invert(93%) sepia(6%) saturate(300%) hue-rotate(345deg); }
+  .term pre { font-size: 12.5px; padding: 16px 18px; }
+</style>
+</head>
+<body>
+<div class="label">VERSION D · CONTROL ROOM</div>
+<nav><div class="wrap inner">
+  <div class="brand"><img src="/public/straitly-mark.svg" alt=""><span>straitly</span></div>
+  <div class="links"><a href="#">Models</a><a href="#">Docs</a><a href="#">Status</a><a class="btn" href="#">Get API key</a></div>
+</div></nav>
+
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1 class="display">Every model.<br><span class="terra">Zero fees. Zero lag.</span></h1>
+      <div class="sub">THE GATEWAY THAT TAKES NOTHING OFF THE TOP</div>
+    </div>
+    <div class="cta">
+      <a class="btn btn-solid" href="#">Get an API key</a>
+      <a class="btn" href="#">Docs</a>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card tile t-lat">
+      <div class="hd"><div class="eyebrow">ADDED LATENCY</div><span class="dot"></span></div>
+      <div class="big terra2" id="lat">7<span style="font-size:24px">ms</span></div>
+      <div class="mono-sm" style="margin-top:10px">p50 over provider &middot; last 24h</div>
+      <div class="spark" id="spark"></div>
+    </div>
+
+    <div class="card tile t-fee">
+      <div class="hd"><div class="eyebrow">PLATFORM FEE</div></div>
+      <div class="big terra2">0%</div>
+      <div class="mono-sm" style="margin-top:10px">OpenRouter charges 5.5% on credits</div>
+      <div style="margin-top:14px;font-size:12.5px;color:var(--gray)">
+        On <span style="color:var(--cream)">$10k/mo</span> you keep
+        <span class="terra2" style="font-size:15px">$550</span>
+      </div>
+    </div>
+
+    <div class="card tile t-cat">
+      <div class="hd"><div class="eyebrow">CATALOG</div></div>
+      <div class="big">412</div>
+      <div class="mono-sm" style="margin-top:10px">models &middot; 68 providers</div>
+      <div class="logos">
+        <img src="/public/logos/openai.svg"><img src="/public/logos/claude.svg"><img src="/public/logos/gemini.svg">
+        <img src="/public/logos/grok.svg"><img src="/public/logos/deepseek.svg"><img src="/public/logos/kimi.svg">
+        <img src="/public/logos/mistral.svg"><img src="/public/logos/qwen.svg"><img src="/public/logos/meta.svg">
+      </div>
+    </div>
+
+    <div class="card tile t-code" style="padding:0;overflow:hidden">
+      <div class="term" style="border:0;border-radius:0">
+        <div class="bar" style="display:flex;align-items:center;gap:8px;padding:11px 14px">
+          <i style="background:#e0685f;width:11px;height:11px;border-radius:50%;display:block"></i>
+          <i style="background:#e0b95f;width:11px;height:11px;border-radius:50%;display:block"></i>
+          <i style="background:#6ec48b;width:11px;height:11px;border-radius:50%;display:block"></i>
+          <span class="t" style="margin-left:10px;font-size:11.5px;color:var(--gray)">client.ts</span>
+        </div>
+<pre><span class="k">const</span> client = <span class="k">new</span> <span class="p">OpenAI</span>({
+  baseURL: <span class="s">"https://api.straitly.ai/v1"</span>,
+  apiKey: process.env.<span class="p">STRAITLY_KEY</span>,
+});
+
+<span class="k">await</span> client.chat.completions.<span class="p">create</span>({
+  model: <span class="s">"anthropic/fable-5"</span>,
+  messages: [{ role: <span class="s">"user"</span>, content: <span class="s">"ship it"</span> }],
+});</pre>
+      </div>
+    </div>
+
+    <div class="card tile t-board">
+      <div class="hd"><div class="eyebrow">GATEWAY OVERHEAD</div><div class="mono-sm">p50</div></div>
+      <div class="bar us"><div class="n">straitly</div><div class="track"><div class="fill" style="width:9%"></div></div><div class="ms">7 ms</div></div>
+      <div class="bar them"><div class="n">Vercel Gateway</div><div class="track"><div class="fill" style="width:47%"></div></div><div class="ms">38 ms</div></div>
+      <div class="bar them"><div class="n">OpenRouter</div><div class="track"><div class="fill" style="width:100%"></div></div><div class="ms">81 ms</div></div>
+      <div class="mono-sm" style="margin-top:16px;font-size:11px;color:#6f7178">same prompt, same region &middot; open-source benchmark</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const sp = document.getElementById("spark");
+  for (let i = 0; i < 34; i++) { const b = document.createElement("i"); b.style.height = (7 + Math.random() * 26) + "px"; sp.appendChild(b); }
+  setInterval(() => {
+    document.getElementById("lat").innerHTML = (6 + Math.floor(Math.random() * 3)) + '<span style="font-size:24px">ms</span>';
+  }, 1500);
+</script>
+</body>
+</html>

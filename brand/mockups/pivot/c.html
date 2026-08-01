@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>C — Drop-in</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Handjet:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css" />
+<style>
+  .hero { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 60px; align-items: center; padding: 78px 0 60px; }
+  h1 { font-size: 82px; margin: 0; }
+  .sub { font-family: "Departure Mono", monospace; font-size: 14px; letter-spacing: 0.18em; color: var(--gray); margin-top: 24px; }
+  .cta { display: flex; gap: 13px; margin-top: 34px; }
+  .diff pre { padding: 22px 22px; }
+  .diff .del { background: rgba(200,90,70,0.12); display: block; margin: 0 -22px; padding: 2px 22px; color: #d98c76; }
+  .diff .add { background: rgba(183,127,90,0.16); display: block; margin: 0 -22px; padding: 2px 22px; color: var(--terra2); }
+  .note { display: flex; gap: 10px; align-items: center; margin-top: 18px; font-size: 12.5px; color: var(--gray); }
+  .chip { border: 1px solid rgba(154,148,139,0.25); border-radius: 100px; padding: 5px 12px; font-size: 11.5px; color: var(--gray); }
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 26px; }
+</style>
+</head>
+<body>
+<div class="label">VERSION C · DEVELOPER-LED</div>
+<nav><div class="wrap inner">
+  <div class="brand"><img src="/public/straitly-mark.svg" alt=""><span>straitly</span></div>
+  <div class="links"><a href="#">Models</a><a href="#">Docs</a><a href="#">Pricing</a><a class="btn" href="#">Get API key</a></div>
+</div></nav>
+
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <h1 class="display">Change<br>one line.<br><span class="terra">Stop paying<br>the tax.</span></h1>
+      <div class="sub">DROP-IN OPENROUTER REPLACEMENT</div>
+      <div class="cta">
+        <a class="btn btn-solid" href="#">Get an API key</a>
+        <a class="btn" href="#">Migration guide</a>
+      </div>
+      <div class="chips">
+        <span class="chip">OpenAI SDK</span><span class="chip">Anthropic SDK</span>
+        <span class="chip">Vercel AI SDK</span><span class="chip">LangChain</span><span class="chip">curl</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="term diff">
+        <div class="bar">
+          <i style="background:#e0685f"></i><i style="background:#e0b95f"></i><i style="background:#6ec48b"></i>
+          <span class="t">client.ts</span>
+        </div>
+<pre><span class="k">import</span> OpenAI <span class="k">from</span> <span class="s">"openai"</span>;
+
+<span class="k">const</span> client = <span class="k">new</span> <span class="p">OpenAI</span>({
+<span class="del">-  baseURL: "https://openrouter.ai/api/v1",</span>
+<span class="add">+  baseURL: "https://api.straitly.ai/v1",</span>
+  apiKey: process.env.<span class="p">STRAITLY_KEY</span>,
+});
+
+<span class="c">// same models, same request shape, 0% fee</span>
+<span class="k">await</span> client.chat.completions.<span class="p">create</span>({
+  model: <span class="s">"anthropic/fable-5"</span>,
+  messages: [{ role: <span class="s">"user"</span>, content: <span class="s">"ship it"</span> }],
+});</pre>
+      </div>
+      <div class="note"><span class="dot"></span> Every OpenRouter model slug works unchanged &middot; no rewrite, no new SDK</div>
+    </div>
+  </div>
+
+  <div class="statrow">
+    <div class="s"><div class="num terra2">0%</div><div class="lab">PLATFORM FEE</div></div>
+    <div class="s"><div class="num">7<span style="font-size:22px">ms</span></div><div class="lab">ADDED LATENCY</div></div>
+    <div class="s"><div class="num">412</div><div class="lab">MODELS</div></div>
+    <div class="s"><div class="num">1</div><div class="lab">LINE TO CHANGE</div></div>
+  </div>
+</div>
+</body>
+</html>

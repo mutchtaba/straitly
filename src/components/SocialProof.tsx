@@ -17,8 +17,8 @@ const MONO_TINT =
 
 export function TrustedBy() {
   return (
-    <div className="flex flex-col gap-12">
-      <p className="text-center font-pixel text-sm tracking-[0.35em] text-warm-gray sm:text-base">
+    <div className="flex flex-col gap-5">
+      <p className="text-center font-pixel text-sm tracking-[0.35em] text-[#d8d3c8] sm:text-base">
         TRUSTED BY ENGINEERS AT
       </p>
       <div className="flex flex-wrap items-center justify-between gap-x-10 gap-y-10">

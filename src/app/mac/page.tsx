@@ -2,11 +2,13 @@ import Reveal from "@/components/Reveal";
 import SiteHeader from "@/components/SiteHeader";
 import RetroTerminal from "@/components/RetroTerminal";
 import { TrustedBy } from "@/components/SocialProof";
-import StatBar from "@/components/StatBar";
+import DealCompare from "@/components/DealCompare";
 
 const CONTAINER = "mx-auto w-full max-w-[1360px] px-6";
 
-export default function Home() {
+/* Alternate hero version: painted vintage Macintosh (option 6),
+   cream-themed language bar. Compare against / (option 3). */
+export default function MacVersion() {
   return (
     <main className="flex min-h-screen flex-col">
       <SiteHeader />
@@ -61,32 +63,32 @@ export default function Home() {
             </div>
 
             <div className="hidden items-center justify-center lg:flex">
-              <div className="w-full max-w-[720px]">
+              <div className="w-full max-w-[700px]">
                 <RetroTerminal
-                  src="/retro/03-phosphor-terminal-pixel.png"
-                  alt="Retro terminal showing the Straitly API"
+                  src="/retro/06-macintosh-painted-crop.png"
+                  alt="Vintage Macintosh showing the Straitly API"
                   screen={{
-                    left: 30.0,
-                    top: 16.41,
-                    width: 40.16,
-                    height: 39.06,
+                    left: 18.56,
+                    top: 17.15,
+                    width: 63.03,
+                    height: 44.06,
                   }}
-                  tabsTop={67.35}
-                  tabsSpan={{ left: 22.0, width: 56.0 }}
+                  tabsTop={80}
+                  barTheme="cream"
                 />
               </div>
             </div>
           </div>
 
-          <Reveal delay={0.3} className="mt-20">
+          <Reveal delay={0.3} className="mt-16">
             <TrustedBy />
           </Reveal>
         </div>
       </section>
 
-      <section id="models" className="border-y border-warm-gray/10 py-24 sm:py-28">
+      <section id="models" className="py-32 sm:py-44">
         <div className={CONTAINER}>
-          <StatBar />
+          <DealCompare />
         </div>
       </section>
 

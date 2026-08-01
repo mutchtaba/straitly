@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>B — Speed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Handjet:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="base.css" />
+<style>
+  .hero { padding: 70px 0 40px; text-align: center; }
+  h1 { font-size: 88px; margin: 0; }
+  .sub { font-family: "Departure Mono", monospace; font-size: 14px; letter-spacing: 0.2em; color: var(--gray); margin-top: 22px; }
+  .bignum { margin: 44px auto 8px; display: flex; align-items: flex-start; justify-content: center; gap: 6px; }
+  .bignum .v { font-family: "Handjet", sans-serif; font-weight: 700; font-size: 190px; line-height: 0.8;
+    color: var(--terra2); text-shadow: 0 0 70px rgba(207,146,104,0.45); }
+  .bignum .u { font-family: "Handjet", sans-serif; font-weight: 600; font-size: 54px; color: var(--terra); margin-top: 14px; }
+  .caption { font-family: "Departure Mono", monospace; font-size: 12.5px; letter-spacing: 0.2em; color: var(--gray); }
+  .board { margin: 52px auto 0; max-width: 880px; padding: 24px 28px 26px; }
+  .board .hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .bar { display: grid; grid-template-columns: 132px 1fr 74px; align-items: center; gap: 16px; margin-bottom: 13px; }
+  .bar .n { font-size: 12.5px; color: var(--gray); text-align: left; }
+  .bar .track { height: 12px; background: rgba(154,148,139,0.1); border-radius: 3px; overflow: hidden; }
+  .bar .fill { height: 100%; border-radius: 3px; transition: width 0.6s cubic-bezier(.22,1,.36,1); }
+  .bar .ms { font-family: "JetBrains Mono", monospace; font-size: 13px; text-align: right; }
+  .us .fill { background: linear-gradient(90deg, var(--terra), var(--terra2)); box-shadow: 0 0 16px rgba(207,146,104,0.55); }
+  .us .n, .us .ms { color: var(--cream); }
+  .them .fill { background: #4c515b; }
+  .spark { display: flex; align-items: flex-end; gap: 3px; height: 34px; }
+  .spark i { width: 4px; background: rgba(207,146,104,0.55); border-radius: 1px; display: block; }
+  .foot { margin-top: 20px; font-size: 11.5px; color: #6f7178; letter-spacing: 0.05em; }
+</style>
+</head>
+<body>
+<div class="label">VERSION B · SPEED-LED</div>
+<nav><div class="wrap inner">
+  <div class="brand"><img src="/public/straitly-mark.svg" alt=""><span>straitly</span></div>
+  <div class="links"><a href="#">Models</a><a href="#">Docs</a><a href="#">Status</a><a class="btn" href="#">Get API key</a></div>
+</div></nav>
+
+<div class="wrap">
+  <div class="hero">
+    <h1 class="display">The fastest way<br>to <span class="terra">every model.</span></h1>
+    <div class="sub">ZERO FEES &middot; 412 MODELS &middot; ONE ENDPOINT</div>
+
+    <div class="bignum"><div class="v" id="v">7</div><div class="u">ms</div></div>
+    <div class="caption">MEDIAN LATENCY <span class="terra">WE</span> ADD ON TOP OF THE PROVIDER</div>
+
+    <div class="card board">
+      <div class="hd">
+        <div class="eyebrow">GATEWAY OVERHEAD &middot; LAST 24H</div>
+        <div class="mono-sm"><span class="dot"></span> updating live</div>
+      </div>
+      <div class="bar us"><div class="n">straitly</div><div class="track"><div class="fill" style="width:9%"></div></div><div class="ms">7 ms</div></div>
+      <div class="bar them"><div class="n">Vercel AI Gateway</div><div class="track"><div class="fill" style="width:47%"></div></div><div class="ms">38 ms</div></div>
+      <div class="bar them"><div class="n">OpenRouter</div><div class="track"><div class="fill" style="width:100%"></div></div><div class="ms">81 ms</div></div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:22px">
+        <div class="spark" id="spark"></div>
+        <div class="foot">p50 added time-to-first-token &middot; same prompt, same region &middot; benchmark is open source</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="statrow">
+    <div class="s"><div class="num terra2">0%</div><div class="lab">PLATFORM FEE</div></div>
+    <div class="s"><div class="num">99.99%</div><div class="lab">UPTIME</div></div>
+    <div class="s"><div class="num">412</div><div class="lab">MODELS</div></div>
+    <div class="s"><div class="num">68</div><div class="lab">PROVIDERS</div></div>
+  </div>
+</div>
+
+<script>
+  const sp = document.getElementById("spark");
+  for (let i = 0; i < 46; i++) { const b = document.createElement("i"); b.style.height = (8 + Math.random() * 26) + "px"; sp.appendChild(b); }
+  const v = document.getElementById("v");
+  setInterval(() => { v.textContent = (6 + Math.floor(Math.random() * 3)); }, 1400);
+</script>
+</body>
+</html>
