@@ -1,46 +1,47 @@
+import TheDeal from "@/components/TheDeal";
 import Reveal from "@/components/Reveal";
 import SiteHeader from "@/components/SiteHeader";
 import RetroTerminal from "@/components/RetroTerminal";
 import { TrustedBy } from "@/components/SocialProof";
-import StatBar from "@/components/StatBar";
 
 const CONTAINER = "mx-auto w-full max-w-[1360px] px-6";
+
+/* one gap between any two blocks: 64 mobile / 96 tablet / 128 laptop */
+const SECTION_GAP = "pt-16 md:pt-24 lg:pt-32";
+const SECTION_BOTTOM = "pb-16 md:pb-24 lg:pb-32";
 
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col">
       <SiteHeader />
 
-      <section
-        id="access"
-        className="flex min-h-screen items-center overflow-x-clip pt-16"
-      >
-        <div className={`${CONTAINER} py-10`}>
-          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,40fr)_minmax(0,60fr)]">
+      <section id="access" className="overflow-x-clip pt-14">
+        <div className={`${CONTAINER} ${SECTION_GAP}`}>
+          <div className="grid w-full items-center gap-10 lg:grid-cols-[minmax(0,45fr)_minmax(0,55fr)] lg:gap-12">
             <div>
               <Reveal>
-                <h1 className="font-display text-5xl font-semibold leading-[1.05] text-cream sm:text-6xl xl:text-[76px]">
-                  The LLM Router
+                <h1 className="font-display text-5xl font-semibold leading-[1.05] text-cream sm:text-6xl xl:text-[80px]">
+                  A unified interface
                   <br />
-                  <span className="text-terracotta">for Serious Devs</span>
+                  <span className="text-terracotta">for LLMs</span>
                 </h1>
               </Reveal>
               <Reveal delay={0.15}>
-                <p className="mt-7 font-pixel text-base tracking-[0.18em] text-[#c4beb4] sm:text-lg">
-                  ONE ENDPOINT &middot; EVERY MODEL
+                <p className="mt-7 font-pixel text-sm tracking-[0.18em] text-[#c4beb4] sm:text-[17px]">
+                  ONE OPENAI-COMPATIBLE API &middot; EVERY FRONTIER MODEL
                 </p>
               </Reveal>
               <Reveal delay={0.25}>
                 <div className="mt-9 flex flex-wrap gap-4">
                   <a
                     href="#access"
-                    className="bg-terracotta px-6 py-3 text-sm font-medium text-charcoal transition-colors hover:bg-terracotta-bright"
+                    className="bg-terracotta px-7 py-3.5 text-[15px] font-medium text-charcoal transition-colors hover:bg-terracotta-bright"
                   >
-                    Request access
+                    See if you qualify
                   </a>
                   <a
                     href="#models"
-                    className="flex items-center gap-2.5 border border-warm-gray/40 px-6 py-3 text-sm text-cream transition-colors hover:border-cream"
+                    className="flex items-center gap-2.5 border border-warm-gray/40 px-7 py-3.5 text-[15px] text-cream transition-colors hover:border-cream"
                   >
                     <svg
                       aria-hidden
@@ -60,33 +61,44 @@ export default function Home() {
               </Reveal>
             </div>
 
-            <div className="hidden items-center justify-center lg:flex">
-              <div className="w-full max-w-[720px]">
+            <div className="hidden items-center justify-end lg:flex">
+              <div className="w-full max-w-[640px]">
                 <RetroTerminal
-                  src="/retro/03-phosphor-terminal-pixel.png"
+                  src="/retro/03-phosphor-terminal-cut.png"
                   alt="Retro terminal showing the Straitly API"
                   screen={{
-                    left: 30.0,
-                    top: 16.41,
-                    width: 40.16,
-                    height: 39.06,
+                    left: 25.45,
+                    top: 13.73,
+                    width: 49.19,
+                    height: 42.24,
                   }}
-                  tabsTop={67.35}
-                  tabsSpan={{ left: 22.0, width: 56.0 }}
+                  tabsTop={68.81}
+                  tabsSpan={{ left: 15.66, width: 68.59 }}
+                  imgWidth={1045}
+                  imgHeight={947}
                 />
               </div>
             </div>
           </div>
 
-          <Reveal delay={0.3} className="mt-20">
+        </div>
+
+        {/* Spacing system: every block owns only its TOP gap (SECTION_GAP),
+            so gaps never stack. The last section before the footer also
+            takes SECTION_BOTTOM. */}
+        <div className={`${CONTAINER} ${SECTION_GAP}`}>
+          <Reveal delay={0.3}>
             <TrustedBy />
           </Reveal>
         </div>
       </section>
 
-      <section id="models" className="border-y border-warm-gray/10 py-24 sm:py-28">
+      <section
+        id="deal"
+        className={`${SECTION_GAP} ${SECTION_BOTTOM} overflow-x-clip`}
+      >
         <div className={CONTAINER}>
-          <StatBar />
+          <TheDeal />
         </div>
       </section>
 

@@ -71,12 +71,11 @@ const G_MAIN = "#33e06a";
 const G_DIM = "#1c8f44";
 
 /* layout constants used to auto-fit the type inside any screen rect */
-const MAX_CHARS = 33; // longest rendered line
+const MAX_CHARS = 35; // longest rendered line + caret + safety margin
 const LINE_COUNT = 13;
 const LINE_HEIGHT = 1.55;
 const CHAR_W = 0.62; // monospace advance width in em
 const PAD_FRAC = 0.07; // padding inside the glass, each side
-const IMG_ASPECT = 1024 / 1280; // height/width of the generated images
 
 const LANGS = ["curl", "python", "js"] as const;
 type Lang = (typeof LANGS)[number];
@@ -179,8 +178,7 @@ function Snippet({
         {"      "}
         {modelSpan},{"\n"}
         {"    "}messages=[{"{"}&quot;role&quot;: &quot;user&quot;,{"\n"}
-        {"      "}&quot;content&quot;: &quot;hello&quot;{"}"}]){"\n"}
-        <Caret fontCqw={fontCqw} />
+        {"      "}&quot;content&quot;: &quot;hello&quot;{"}"}])
       </code>
     );
   }
@@ -216,6 +214,8 @@ export default function RetroTerminal({
   tabsTop,
   tabsSpan,
   barTheme = "dark",
+  imgWidth = 1280,
+  imgHeight = 1024,
 }: {
   src: string;
   alt: string;
@@ -228,16 +228,20 @@ export default function RetroTerminal({
   tabsSpan?: { left: number; width: number };
   /** bar colors: "dark" for charcoal machines, "cream" for beige ones */
   barTheme?: BarTheme;
+  /** intrinsic pixel size of the image file */
+  imgWidth?: number;
+  imgHeight?: number;
 }) {
   const theme = BAR_THEMES[barTheme];
   const model = useTypewriter(MODELS);
   const [lang, setLang] = useState<Lang>("python");
+  const imgAspect = imgHeight / imgWidth;
 
   // Font size in cqw (1cqw = 1% of the image width). Fit both axes:
   const usable = 1 - PAD_FRAC * 2;
   const fitWidth = (screen.width * usable) / (MAX_CHARS * CHAR_W);
   const fitHeight =
-    (screen.height * IMG_ASPECT * usable) / (LINE_COUNT * LINE_HEIGHT);
+    (screen.height * imgAspect * usable) / (LINE_COUNT * LINE_HEIGHT);
   const fontCqw = Math.min(fitWidth, fitHeight);
   const btnFont = Math.max(screen.width * 0.032, 1.05);
 
@@ -246,8 +250,8 @@ export default function RetroTerminal({
       <Image
         src={src}
         alt={alt}
-        width={1280}
-        height={1024}
+        width={imgWidth}
+        height={imgHeight}
         priority
         className="h-auto w-full select-none"
       />

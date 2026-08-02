@@ -15,22 +15,22 @@ const jetbrains = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://straitly.ai"),
-  title: "Straitly — The LLM Router for Serious Devs",
+  title: "Straitly — A unified interface for LLMs",
   description:
-    "One endpoint, every model. 0% markup on tokens, 99.9% uptime, 0ms added latency. An OpenAI-compatible gateway to 300+ models.",
+    "One OpenAI-compatible API for Claude, GPT, and Gemini. Qualified teams get preferred pricing on frontier models.",
   openGraph: {
-    title: "Straitly — The LLM Router for Serious Devs",
+    title: "Straitly — A unified interface for LLMs",
     description:
-      "One endpoint, every model. 0% markup on tokens, 99.9% uptime, 0ms added latency. An OpenAI-compatible gateway to 300+ models.",
+      "One OpenAI-compatible API for Claude, GPT, and Gemini. Qualified teams get preferred pricing on frontier models.",
     url: "https://straitly.ai",
     siteName: "Straitly",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Straitly — The LLM Router for Serious Devs",
+    title: "Straitly — A unified interface for LLMs",
     description:
-      "One endpoint, every model. 0% markup, 99.9% uptime, 0ms added latency.",
+      "One OpenAI-compatible API for Claude, GPT, and Gemini. Qualified teams get preferred pricing on frontier models.",
   },
   icons: { icon: "/favicon.svg" },
 };

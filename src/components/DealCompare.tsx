@@ -22,15 +22,21 @@ export default function DealCompare() {
   return (
     <div>
       <Reveal>
+        <p className="mb-6 flex items-center gap-3 font-pixel text-xs tracking-[0.28em] text-terracotta">
+          <span aria-hidden className="h-2 w-2 bg-terracotta" />
+          THE DEAL
+        </p>
+      </Reveal>
+      <Reveal delay={0.05}>
         <h2 className="font-display text-5xl font-semibold leading-[1.04] text-cream sm:text-6xl xl:text-7xl">
           We buy in bulk.
           <br />
           <span className="text-terracotta">You get the discount.</span>
         </h2>
       </Reveal>
-      <Reveal delay={0.1}>
+      <Reveal delay={0.15}>
         <p className="mt-6 font-pixel text-sm tracking-[0.18em] text-warm-gray sm:text-base">
-          SAME TOWER. SAME MODELS. DIFFERENT DEAL.
+          SAME MODELS &middot; SAME API &middot; UP TO 50% OFF LIST
         </p>
       </Reveal>
 
@@ -85,6 +91,23 @@ export default function DealCompare() {
           </Reveal>
         ))}
       </div>
+
+      <Reveal delay={0.35}>
+        <div className="mt-14 flex flex-col justify-between gap-8 md:flex-row md:items-end">
+          <p className="max-w-xl text-[15px] leading-relaxed text-warm-gray">
+            We commit to volume with every major lab and resell that capacity
+            at program rates. Qualify once and your keys price at our rates
+            from the first token. Your integration does not change, your
+            invoice does.
+          </p>
+          <a
+            href="#access"
+            className="shrink-0 bg-terracotta px-6 py-3 text-sm font-medium text-charcoal transition-colors hover:bg-terracotta-bright"
+          >
+            See if you qualify
+          </a>
+        </div>
+      </Reveal>
     </div>
   );
 }
