@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 import Reveal from "@/components/Reveal";
 
 const ROWS = [
@@ -22,48 +23,62 @@ const ROWS = [
   },
 ] as const;
 
-/* Coins drop into the machine's dispenser bin when the section scrolls
-   into view, then idle-hop forever. They live inside an overflow-hidden
-   div that exactly matches the bin's dark opening, so a falling coin can
-   only ever be visible inside the bin — never over the machine's face. */
+/* The dispenser alcove, measured off token-machine-v4-cut.png (430x949):
+   the dark opening runs x 12.3%–87.0%, from y 79.3% down to the tray
+   lip's top highlight at 90.83%. Coins live inside an overflow-hidden div
+   matching that box, so a coin is only ever visible inside the alcove: it
+   drops in from the shadow above and its base is cut exactly on the lip's
+   edge, which reads as the lip occluding it. Nothing ever crosses the
+   machine's face. Retune these numbers if the machine art changes. */
+const BIN = "absolute left-[12.3%] top-[79.3%] h-[11.53%] w-[74.7%]";
+
 const COINS = [
-  { src: "/retro/coin-openai-cut.png", left: "-2%", rot: -8 },
-  { src: "/retro/coin-meta-cut.png", left: "19%", rot: 6 },
-  { src: "/retro/coin-ai-cut.png", left: "40%", rot: -5 },
-  { src: "/retro/coin-gemini-cut.png", left: "61%", rot: 9 },
+  { src: "/retro/coin-openai-cut.png", left: "1%", rot: -8 },
+  { src: "/retro/coin-meta-cut.png", left: "24%", rot: 6 },
+  { src: "/retro/coin-ai-cut.png", left: "47%", rot: -5 },
+  { src: "/retro/coin-gemini-cut.png", left: "70%", rot: 9 },
 ] as const;
 
+/* `dispensed` is driven by an observer on the machine itself, not on the
+   coin. The coin starts fully outside the alcove clip, so its own
+   intersection ratio is permanently 0 and a whileInView on it can never
+   fire. */
 function BinCoin({
   src,
   left,
   rot,
   index,
+  dispensed,
 }: {
   src: string;
   left: string;
   rot: number;
   index: number;
+  dispensed: boolean;
 }) {
-  const drop = 0.45 + index * 0.3;
+  const drop = 0.35 + index * 0.28;
   return (
     <motion.div
       aria-hidden
-      className="absolute bottom-[-30%] w-[41%]"
+      className="absolute bottom-[-18%] w-[29%]"
       style={{ left }}
-      initial={{ y: "-180%", rotate: 0 }}
-      whileInView={{ y: ["-180%", "0%", "-16%", "0%"], rotate: rot }}
-      viewport={{ once: true, amount: 0.4 }}
+      initial={{ y: "-190%", rotate: 0 }}
+      animate={
+        dispensed
+          ? { y: ["-190%", "0%", "-14%", "0%"], rotate: rot }
+          : { y: "-190%", rotate: 0 }
+      }
       transition={{
         delay: drop,
-        duration: 0.75,
-        times: [0, 0.55, 0.76, 1],
+        duration: 0.72,
+        times: [0, 0.56, 0.78, 1],
         ease: ["easeIn", "easeOut", "easeIn"],
-        rotate: { delay: drop, duration: 0.75 },
+        rotate: { delay: drop, duration: 0.72 },
       }}
     >
       {/* infinite idle hop, phase-shifted per coin */}
       <motion.div
-        animate={{ y: [0, -5, 0] }}
+        animate={dispensed ? { y: [0, -5, 0] } : { y: 0 }}
         transition={{
           delay: 2.6 + index * 0.4,
           duration: 0.5,
@@ -91,11 +106,15 @@ function CornerBrackets() {
 }
 
 export default function TheDeal() {
+  const machineRef = useRef<HTMLDivElement>(null);
+  const dispensed = useInView(machineRef, { once: true, amount: 0.3 });
+
   return (
     <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,45fr)_minmax(0,55fr)] lg:gap-16">
       {/* token machine — LEFT on desktop, below text on mobile */}
       <Reveal delay={0.15} className="order-2 lg:order-1">
         <div
+          ref={machineRef}
           className="relative mx-auto w-full max-w-[360px] lg:mx-0"
           style={{ containerType: "inline-size" }}
         >
@@ -124,10 +143,10 @@ export default function TheDeal() {
             </span>
           </div>
 
-          {/* dispenser bin — overflow-hidden clip matching the dark opening */}
-          <div className="absolute left-[25%] top-[84.2%] h-[8.4%] w-[53.5%] overflow-hidden">
+          {/* dispenser alcove — overflow-hidden clip matching the opening */}
+          <div className={`${BIN} overflow-hidden`}>
             {COINS.map((c, i) => (
-              <BinCoin key={c.src} index={i} {...c} />
+              <BinCoin key={c.src} index={i} dispensed={dispensed} {...c} />
             ))}
           </div>
         </div>
