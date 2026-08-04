@@ -137,22 +137,26 @@ export default function Home() {
 
       <footer className="border-t border-warm-gray/15">
         <div className={CONTAINER}>
-          <div className="flex flex-col items-start justify-between gap-4 py-4 font-pixel text-xs text-warm-gray sm:flex-row sm:items-center">
-          <span>&copy; 2026 Straitly &middot; San Francisco, CA</span>
-          <div className="flex gap-6">
-            <a
-              href="https://x.com/straitly"
-              className="transition-colors hover:text-cream"
-            >
-              X
-            </a>
-            <a
-              href="https://linkedin.com/company/straitly"
-              className="transition-colors hover:text-cream"
-            >
-              LinkedIn
-            </a>
-          </div>
+          {/* mobile: centered stack with room to breathe; desktop: same
+              single row as before */}
+          <div className="flex flex-col items-center justify-between gap-5 py-8 font-pixel text-xs text-warm-gray sm:flex-row sm:items-center sm:gap-4 sm:py-4">
+            <span className="text-center">
+              &copy; 2026 Straitly &middot; San Francisco, CA
+            </span>
+            <div className="flex gap-8 sm:gap-6">
+              <a
+                href="https://x.com/straitly"
+                className="transition-colors hover:text-cream"
+              >
+                X
+              </a>
+              <a
+                href="https://linkedin.com/company/straitly"
+                className="transition-colors hover:text-cream"
+              >
+                LinkedIn
+              </a>
+            </div>
           </div>
         </div>
       </footer>
