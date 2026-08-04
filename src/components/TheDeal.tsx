@@ -160,8 +160,9 @@ export default function TheDeal() {
 
   return (
     <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,45fr)_minmax(0,55fr)] lg:gap-16">
-      {/* token machine — LEFT on desktop, below text on mobile */}
-      <Reveal delay={0.15} className="order-2 lg:order-1">
+      {/* token machine — LEFT on desktop only; hidden on mobile to keep
+          the section light */}
+      <Reveal delay={0.15} className="order-2 hidden lg:order-1 lg:block">
         <div
           ref={machineRef}
           id="straitly-dispenser"

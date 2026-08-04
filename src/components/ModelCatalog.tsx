@@ -183,6 +183,12 @@ function ScreenFace({
    the token machine in the section above, so the coin travels a true
    diagonal from the machine to this TV's slot on any screen size. */
 function flightFrom(tvEl: HTMLElement): { dx: number; dy: number } {
+  /* mobile: the token machine is hidden, so the coin simply appears just
+     above the TV's own coin slot and drops straight in — no cross-page
+     flight */
+  if (window.matchMedia("(max-width: 1023px)").matches) {
+    return { dx: 0, dy: -tvEl.offsetHeight * 0.26 };
+  }
   const slotX =
     tvEl.getBoundingClientRect().left +
     (tvEl.offsetWidth * SLOT.left) / 100;
