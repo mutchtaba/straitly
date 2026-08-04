@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import ArcadeCta from "@/components/ArcadeCta";
 
 /* Ramp-style header: starts as a near-full-width bar with a subtle
    border, then shrinks into a compact floating pill once you scroll
@@ -52,12 +53,7 @@ export default function SiteHeader() {
             straitly
           </span>
         </div>
-        <a
-          href="#access"
-          className="border border-terracotta px-3.5 py-1.5 text-xs text-terracotta transition-colors hover:bg-terracotta hover:text-charcoal"
-        >
-          See if you qualify
-        </a>
+        <ArcadeCta variant="header">See if you qualify</ArcadeCta>
       </div>
     </header>
   );

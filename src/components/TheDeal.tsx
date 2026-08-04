@@ -2,24 +2,25 @@
 
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Reveal from "@/components/Reveal";
+import ArcadeCta from "@/components/ArcadeCta";
 
 const ROWS = [
   {
     icon: "/retro/icon-hacker-cut.png",
-    title: "Indie hackers qualify",
-    sub: "Shipping solo? You qualify.",
+    title: "Indie hackers",
+    sub: "Solo devs shipping real products.",
   },
   {
     icon: "/retro/icon-rocket-cut.png",
-    title: "Small startups qualify",
-    sub: "Pre-seed to Series A? You qualify.",
+    title: "Small startups",
+    sub: "Pre-seed through Series A, before the bill gets scary.",
   },
   {
     icon: "/retro/icon-terminals-cut.png",
-    title: "Software engineering teams qualify",
-    sub: "Burning budget on inference? You qualify.",
+    title: "Engineering teams",
+    sub: "Teams spending real money on inference every month.",
   },
 ] as const;
 
@@ -49,12 +50,14 @@ function BinCoin({
   rot,
   index,
   dispensed,
+  spent,
 }: {
   src: string;
   left: string;
   rot: number;
   index: number;
   dispensed: boolean;
+  spent: boolean;
 }) {
   const drop = 0.35 + index * 0.28;
   return (
@@ -64,9 +67,12 @@ function BinCoin({
       style={{ left }}
       initial={{ y: "-190%", rotate: 0 }}
       animate={
-        dispensed
-          ? { y: ["-190%", "0%", "-14%", "0%"], rotate: rot }
-          : { y: "-190%", rotate: 0 }
+        spent
+          ? // rolled out of the pan and spent on the TVs below: the pan empties
+            { y: "160%", rotate: rot + 40, transition: { delay: index * 0.12, duration: 0.5, ease: "easeIn" } }
+          : dispensed
+            ? { y: ["-190%", "0%", "-14%", "0%"], rotate: rot }
+            : { y: "-190%", rotate: 0 }
       }
       transition={{
         delay: drop,
@@ -78,7 +84,7 @@ function BinCoin({
     >
       {/* infinite idle hop, phase-shifted per coin */}
       <motion.div
-        animate={dispensed ? { y: [0, -5, 0] } : { y: 0 }}
+        animate={dispensed && !spent ? { y: [0, -5, 0] } : { y: 0 }}
         transition={{
           delay: 2.6 + index * 0.4,
           duration: 0.5,
@@ -108,6 +114,14 @@ function CornerBrackets() {
 export default function TheDeal() {
   const machineRef = useRef<HTMLDivElement>(null);
   const dispensed = useInView(machineRef, { once: true, amount: 0.3 });
+  const [spent, setSpent] = useState(false);
+
+  /* the model TVs below spend these exact coins */
+  useEffect(() => {
+    const onSpent = () => setSpent(true);
+    window.addEventListener("straitly:coins-spent", onSpent);
+    return () => window.removeEventListener("straitly:coins-spent", onSpent);
+  }, []);
 
   return (
     <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,45fr)_minmax(0,55fr)] lg:gap-16">
@@ -115,6 +129,7 @@ export default function TheDeal() {
       <Reveal delay={0.15} className="order-2 lg:order-1">
         <div
           ref={machineRef}
+          id="straitly-dispenser"
           className="relative mx-auto w-full max-w-[360px] lg:mx-0"
           style={{ containerType: "inline-size" }}
         >
@@ -129,13 +144,14 @@ export default function TheDeal() {
           {/* marquee text on the machine's blank display */}
           <div
             aria-hidden
-            className="absolute left-[22%] top-[10.5%] flex h-[12%] w-[56%] items-center justify-center"
+            className="absolute left-[20%] top-[9%] flex h-[12.6%] w-[60%] items-center justify-center"
           >
             <span
               className="font-pixel font-semibold text-[#e8a33d]"
               style={{
                 fontSize: "9.5cqw",
                 letterSpacing: "0.06em",
+                paddingLeft: "0.06em",
                 textShadow: "0 0 12px rgba(232,163,61,0.55)",
               }}
             >
@@ -146,7 +162,13 @@ export default function TheDeal() {
           {/* dispenser alcove — overflow-hidden clip matching the opening */}
           <div className={`${BIN} overflow-hidden`}>
             {COINS.map((c, i) => (
-              <BinCoin key={c.src} index={i} dispensed={dispensed} {...c} />
+              <BinCoin
+                key={c.src}
+                index={i}
+                dispensed={dispensed}
+                spent={spent}
+                {...c}
+              />
             ))}
           </div>
         </div>
@@ -183,7 +205,7 @@ export default function TheDeal() {
                   />
                 </div>
                 <div>
-                  <h3 className="font-display text-xl font-semibold text-cream sm:text-[22px]">
+                  <h3 className="font-pixel text-lg font-semibold uppercase tracking-[0.04em] text-cream sm:text-xl">
                     {row.title}
                   </h3>
                   <p className="mt-1 text-[15px] leading-relaxed text-[#c4beb4]">
@@ -197,12 +219,7 @@ export default function TheDeal() {
 
         <Reveal delay={0.35}>
           <div className="mt-8">
-            <a
-              href="#access"
-              className="inline-block bg-terracotta px-7 py-3.5 text-[15px] font-medium text-charcoal transition-colors hover:bg-terracotta-bright"
-            >
-              Apply for access
-            </a>
+            <ArcadeCta>Claim your rate</ArcadeCta>
           </div>
         </Reveal>
       </div>

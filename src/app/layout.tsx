@@ -49,7 +49,9 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body>{children}</body>
+      {/* browser extensions inject attributes on <body> before React
+          hydrates (e.g. cz-shortcut-listen) — never our bug, silence it */}
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

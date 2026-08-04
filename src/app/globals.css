@@ -107,3 +107,60 @@ body {
 .animate-caret {
   animation: caret 1.1s step-end infinite;
 }
+
+/* final CTA: arcade attract-mode blink (hard steps, no fade) */
+@keyframes attract-blink {
+  0%,
+  55% {
+    opacity: 1;
+  }
+  56%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-attract-blink {
+  animation: attract-blink 1.4s step-end infinite;
+}
+
+/* score pop on form submit: +100 floats up and fades, arcade style */
+@keyframes score-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-64px);
+  }
+}
+
+.animate-score-pop {
+  animation: score-pop 1.1s ease-out forwards;
+}
+
+/* menu-select cursor on CTA hover: blinks like an RPG menu arrow */
+@keyframes cursor-blink {
+  0%,
+  60% {
+    opacity: 1;
+  }
+  61%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.group:hover .cta-cursor {
+  animation: cursor-blink 0.7s step-end infinite;
+  opacity: 1;
+}
+
+.cta-cursor {
+  opacity: 0;
+  transition: opacity 0.15s;
+}

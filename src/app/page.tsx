@@ -1,14 +1,20 @@
 import TheDeal from "@/components/TheDeal";
+import StatBoard from "@/components/StatBoard";
 import Reveal from "@/components/Reveal";
 import SiteHeader from "@/components/SiteHeader";
 import RetroTerminal from "@/components/RetroTerminal";
 import { TrustedBy } from "@/components/SocialProof";
+import ModelCatalog from "@/components/ModelCatalog";
+import HowItWorks from "@/components/HowItWorks";
+import FinalCta from "@/components/FinalCta";
+import ArcadeCta from "@/components/ArcadeCta";
+import Faq from "@/components/Faq";
+import ApplyModal from "@/components/ApplyModal";
 
 const CONTAINER = "mx-auto w-full max-w-[1360px] px-6";
 
-/* one gap between any two blocks: 64 mobile / 96 tablet / 128 laptop */
-const SECTION_GAP = "pt-16 md:pt-24 lg:pt-32";
-const SECTION_BOTTOM = "pb-16 md:pb-24 lg:pb-32";
+/* one gap between any two blocks: 80 mobile / 112 tablet / 160 laptop */
+const SECTION_GAP = "pt-20 md:pt-28 lg:pt-40";
 
 export default function Home() {
   return (
@@ -33,16 +39,8 @@ export default function Home() {
               </Reveal>
               <Reveal delay={0.25}>
                 <div className="mt-9 flex flex-wrap gap-4">
-                  <a
-                    href="#access"
-                    className="bg-terracotta px-7 py-3.5 text-[15px] font-medium text-charcoal transition-colors hover:bg-terracotta-bright"
-                  >
-                    See if you qualify
-                  </a>
-                  <a
-                    href="#models"
-                    className="flex items-center gap-2.5 border border-warm-gray/40 px-7 py-3.5 text-[15px] text-cream transition-colors hover:border-cream"
-                  >
+                  <ArcadeCta>See if you qualify</ArcadeCta>
+                  <ArcadeCta href="#models" variant="outline">
                     <svg
                       aria-hidden
                       width="13"
@@ -56,8 +54,13 @@ export default function Home() {
                       <rect x="8" y="8" width="6" height="6" />
                     </svg>
                     Explore models
-                  </a>
+                  </ArcadeCta>
                 </div>
+              </Reveal>
+              <Reveal delay={0.35}>
+                <p className="mt-5 font-pixel text-[11px] tracking-[0.2em] text-warm-gray">
+                  QUALIFY AND GET $100 IN TRIAL CREDITS &middot; NO COMMITMENT
+                </p>
               </Reveal>
             </div>
 
@@ -93,19 +96,48 @@ export default function Home() {
         </div>
       </section>
 
-      <section
-        id="deal"
-        className={`${SECTION_GAP} ${SECTION_BOTTOM} overflow-x-clip`}
-      >
+      <section id="deal" className={`${SECTION_GAP} overflow-x-clip`}>
         <div className={CONTAINER}>
           <TheDeal />
         </div>
       </section>
 
+      <section id="models" className={`${SECTION_GAP} overflow-x-clip`}>
+        <div className={CONTAINER}>
+          <ModelCatalog />
+        </div>
+      </section>
+
+      <section id="reliability" className={`${SECTION_GAP} overflow-x-clip`}>
+        <div className={CONTAINER}>
+          <StatBoard />
+        </div>
+      </section>
+
+      <section
+        id="how-it-works"
+        className={`${SECTION_GAP} overflow-x-clip`}
+      >
+        <div className={CONTAINER}>
+          <HowItWorks />
+        </div>
+      </section>
+
+      <section id="apply" className="overflow-x-clip">
+        <FinalCta />
+      </section>
+
+      <section id="faq" className={`${SECTION_GAP} overflow-x-clip pb-16 md:pb-20`}>
+        <div className={CONTAINER}>
+          <Faq />
+        </div>
+      </section>
+
+      <ApplyModal />
+
       <footer className="border-t border-warm-gray/15">
-        <div
-          className={`${CONTAINER} flex flex-col items-start justify-between gap-4 py-6 font-pixel text-xs text-warm-gray sm:flex-row sm:items-center`}
-        >
+        <div className={CONTAINER}>
+          <div className="flex flex-col items-start justify-between gap-4 py-4 font-pixel text-xs text-warm-gray sm:flex-row sm:items-center">
           <span>&copy; 2026 Straitly &middot; San Francisco, CA</span>
           <div className="flex gap-6">
             <a
@@ -120,6 +152,7 @@ export default function Home() {
             >
               LinkedIn
             </a>
+          </div>
           </div>
         </div>
       </footer>
