@@ -44,7 +44,7 @@ export default function FinalCta() {
       </Reveal>
 
       <Reveal delay={0.35}>
-        <p className="mt-8 font-pixel text-[11px] tracking-[0.22em] text-warm-gray">
+        <p className="mt-8 whitespace-nowrap font-pixel text-[9px] tracking-[0.08em] text-warm-gray sm:text-[11px] sm:tracking-[0.22em]">
           $100 FREE CREDITS &middot; NO COMMITMENT &middot; NO SALES CALL
         </p>
       </Reveal>

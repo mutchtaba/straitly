@@ -65,21 +65,56 @@ function BinCoin({
       aria-hidden
       className="absolute bottom-[-18%] w-[29%]"
       style={{ left }}
-      initial={{ y: "-190%", rotate: 0 }}
+      /* the coin comes OUT of the machine toward you: it starts small and
+         dark deep inside the alcove, scales up as it's pushed forward, and
+         settles into the tray with one bounce. Depth is faked with
+         scale + brightness, so nothing ever crosses the machine's face. */
+      initial={{
+        y: "-58%",
+        scale: 0.5,
+        opacity: 0,
+        rotate: 0,
+        filter: "brightness(0.45)",
+      }}
       animate={
         spent
           ? // rolled out of the pan and spent on the TVs below: the pan empties
-            { y: "160%", rotate: rot + 40, transition: { delay: index * 0.12, duration: 0.5, ease: "easeIn" } }
+            {
+              y: "160%",
+              scale: 1,
+              opacity: 1,
+              rotate: rot + 40,
+              filter: "brightness(1)",
+              transition: { delay: index * 0.12, duration: 0.5, ease: "easeIn" },
+            }
           : dispensed
-            ? { y: ["-190%", "0%", "-14%", "0%"], rotate: rot }
-            : { y: "-190%", rotate: 0 }
+            ? {
+                y: ["-58%", "-30%", "6%", "-10%", "0%"],
+                scale: [0.5, 0.72, 1, 1, 1],
+                opacity: [0, 1, 1, 1, 1],
+                rotate: rot,
+                filter: [
+                  "brightness(0.45)",
+                  "brightness(0.62)",
+                  "brightness(1)",
+                  "brightness(1)",
+                  "brightness(1)",
+                ],
+              }
+            : {
+                y: "-58%",
+                scale: 0.5,
+                opacity: 0,
+                rotate: 0,
+                filter: "brightness(0.45)",
+              }
       }
       transition={{
         delay: drop,
-        duration: 0.72,
-        times: [0, 0.56, 0.78, 1],
-        ease: ["easeIn", "easeOut", "easeIn"],
-        rotate: { delay: drop, duration: 0.72 },
+        duration: 0.8,
+        times: [0, 0.3, 0.62, 0.82, 1],
+        ease: ["easeOut", "easeIn", "easeOut", "easeIn"],
+        rotate: { delay: drop, duration: 0.8 },
       }}
     >
       {/* infinite idle hop, phase-shifted per coin */}

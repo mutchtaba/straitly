@@ -33,7 +33,7 @@ export default function Home() {
                 </h1>
               </Reveal>
               <Reveal delay={0.15}>
-                <p className="mt-7 font-pixel text-sm tracking-[0.18em] text-[#c4beb4] sm:text-[17px]">
+                <p className="mt-7 whitespace-nowrap font-pixel text-[10px] tracking-[0.05em] text-[#c4beb4] sm:text-[17px] sm:tracking-[0.18em]">
                   ONE OPENAI-COMPATIBLE API &middot; EVERY FRONTIER MODEL
                 </p>
               </Reveal>
@@ -58,7 +58,7 @@ export default function Home() {
                 </div>
               </Reveal>
               <Reveal delay={0.35}>
-                <p className="mt-5 font-pixel text-[11px] tracking-[0.2em] text-warm-gray">
+                <p className="mt-5 whitespace-nowrap font-pixel text-[9px] tracking-[0.05em] text-warm-gray sm:text-[11px] sm:tracking-[0.2em]">
                   QUALIFY AND GET $100 IN TRIAL CREDITS &middot; NO COMMITMENT
                 </p>
               </Reveal>
