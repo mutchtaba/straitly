@@ -132,7 +132,7 @@ function ScreenFace({
   ] as const;
   /* one line, always: shrink the name type to fit the longest ids,
      leaving room for the brand mark at the left of the title */
-  const nameSize = Math.min(6.4, 66 / model.name.length);
+  const nameSize = Math.min(6.4, 55 / model.name.length);
   return (
     <motion.div
       key={model.name}

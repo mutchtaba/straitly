@@ -5,24 +5,48 @@ import Reveal from "@/components/Reveal";
 
 const ITEMS = [
   {
-    q: "How is this real?",
-    a: "We hold committed capacity with the frontier labs, priced far below list. Most companies spend their growth budget on ads. We spend ours on your inference bill. Qualified accounts get the margin, and word of mouth does the rest.",
+    q: "Why is it cheaper?",
+    a: "We hold committed capacity with the frontier labs, priced far below list, and we're funded. Most companies spend their growth budget on ads. We spend ours on your inference bill. Qualified accounts get the margin, and word of mouth does the rest.",
+  },
+  {
+    q: "Why are you doing this?",
+    a: "Most YC and VC-backed startups get piles of free Anthropic and AWS credits to launch their companies. We believe every company deserves the same playing field. We can't provide free tokens, but we can provide them at a heavy discount for indie hackers and smaller startups - hoping that one day you outgrow us and secure your own enterprise deal with the providers.",
   },
   {
     q: "Who qualifies?",
     a: "Indie hackers shipping real products, startups from pre-seed through Series A, and engineering teams with real monthly inference spend. If you're actually building, you're probably in. Accounts that don't qualify simply pay each provider's list price.",
   },
   {
+    q: "Do I get a free trial?",
+    a: "Yes. Every new user gets $100 in credits at the discounted rates. If the trial works out and you want to go further, stay usage-based or commit for even cheaper prices.",
+  },
+  {
+    q: "Can this replace OpenRouter, OpenAI or Anthropic?",
+    a: "Yes. It's one line of change: swap the base URL, put in your API key, and your requests come to us. OpenAI-compatible API, every model in the catalog.",
+  },
+  {
     q: "Is this a proxy on top of my own keys?",
     a: "No. It's our infrastructure end to end. You get one OpenAI-compatible API key that routes to every provider in the catalog. You never bring your own keys, and you never touch four different billing dashboards again.",
   },
   {
-    q: "Do you train on or store my data?",
-    a: "No training, no resale, ever. Prompts and completions pass through and are gone. We keep the minimal metadata needed for billing and abuse prevention: token counts, timestamps, model IDs.",
+    q: "How long does it take to get qualified?",
+    a: "We review applications on a rolling basis. Current times are 1-2 hours.",
   },
   {
-    q: "What if I stop qualifying?",
-    a: "Nothing dramatic. Your key keeps working at list pricing, and you can requalify whenever your usage changes. No lock-in, no penalties, cancel whenever.",
+    q: "Will my rate change later?",
+    a: "Usage-based rates might change with market pricing. Committed rates never change. Lock a commit and that's your price, period.",
+  },
+  {
+    q: "What's the max traffic you can take on?",
+    a: "We currently serve companies in the $2K to $100K a month range. For larger quota requirements we recommend going directly to the foundational providers - at that size you can probably secure an enterprise deal yourself.",
+  },
+  {
+    q: "What about reliability?",
+    a: "Fallbacks are built in - requests reroute across providers before you see an error. We guarantee a 99% SLA and top-of-the-line time to first token.",
+  },
+  {
+    q: "What if I'm not happy?",
+    a: "That's what the trial credits are for. Test us with $100 of real traffic, and if we're not better, walk away. No commitment, nothing to cancel.",
   },
 ];
 
