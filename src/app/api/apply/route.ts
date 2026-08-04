@@ -14,6 +14,13 @@ const RESEND_URL = "https://api.resend.com/emails";
 const FROM = process.env.EMAIL_FROM ?? "Straitly <team@straitly.ai>";
 const ALERT_TO = process.env.ALERT_TO ?? "hashims@xynth.finance";
 
+/* When no Resend key is configured on the host, forward the application to
+   the Straitly mailer (Cloud Run), which holds the key privately and sends
+   the same two fixed templates. */
+const MAILER_URL =
+  process.env.MAILER_URL ??
+  "https://straitly-mailer-1099443430534.us-central1.run.app/apply";
+
 function isEmail(v: unknown): v is string {
   return typeof v === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
 }
@@ -47,10 +54,6 @@ async function sendEmail(
 
 export async function POST(req: Request) {
   const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.error("RESEND_API_KEY not configured");
-    return NextResponse.json({ ok: false }, { status: 500 });
-  }
 
   let body: unknown;
   try {
@@ -74,6 +77,17 @@ export async function POST(req: Request) {
     company: typeof b.company === "string" ? b.company.slice(0, 300) : "",
     country: typeof b.country === "string" ? b.country.slice(0, 100) : "",
   };
+
+  if (!apiKey) {
+    const res = await fetch(MAILER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(app),
+    }).catch(() => null);
+    const ok = res?.ok === true;
+    if (!ok) console.error(`mailer forward failed: ${res?.status}`);
+    return NextResponse.json({ ok }, { status: ok ? 200 : 502 });
+  }
 
   const confirmation = applicationReceivedEmail();
   const alert = internalAlertEmail(app);
