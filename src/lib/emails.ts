@@ -39,10 +39,7 @@ ${inner}
 </td></tr>
 
 <tr><td style="padding:20px 4px 0;">
-  <p style="margin:0;font-family:${MONO};font-size:11px;letter-spacing:0.14em;color:#a29b8e;">
-    STRAITLY &middot; QUALIFIED RATES ON FRONTIER MODELS
-  </p>
-  <p style="margin:6px 0 0;font-family:${SANS};font-size:12px;color:#a29b8e;">
+  <p style="margin:0;font-family:${SANS};font-size:12px;color:#a29b8e;">
     You're receiving this because you applied at straitly.ai.
   </p>
 </td></tr>
@@ -92,19 +89,8 @@ export function applicationReceivedEmail(): {
   const inner = `
 ${label("APPLICATION RECEIVED")}
 ${h1("You're in the queue.")}
-${p("Thanks for applying to the Straitly qualification program. Our team reviews applications on a rolling basis &mdash; current review time is <strong style=\"color:" + CREAM + ";\">1&ndash;2 hours</strong>.")}
-${p("If you qualify, your next email includes your API key and <strong style=\"color:" + CREAM + ";\">$100 in trial credits</strong> at your qualified rates. Getting started is one line: swap your base URL, drop in the key, send requests.")}
-${p("No sales call. No commitment. Nothing to cancel.")}
-<table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:8px;">
-<tr><td style="border-left:3px solid ${TERRACOTTA};padding:10px 16px;background-color:${CHARCOAL_DEEP};">
-  <p style="margin:0;font-family:${MONO};font-size:12px;line-height:1.7;color:${MUTED};">
-    WHAT HAPPENS NEXT<br/>
-    <span style="color:${BODY_GRAY};">1. We check your usage against current program capacity.<br/>
-    2. Approved? Key + credits arrive in your inbox.<br/>
-    3. You're on program rates the same day.</span>
-  </p>
-</td></tr>
-</table>`;
+${p("Review takes <strong style=\"color:" + CREAM + ";\">1&ndash;2 hours</strong>. If you qualify, your API key and <strong style=\"color:" + CREAM + ";\">$100 in trial credits</strong> arrive in your next email.")}
+${p("No sales call. No commitment.")}`;
   return {
     subject: "Application received — Straitly",
     html: layout(inner, "We got your application. Review takes 1-2 hours."),
