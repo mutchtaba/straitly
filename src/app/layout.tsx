@@ -25,12 +25,21 @@ export const metadata: Metadata = {
     url: "https://straitly.ai",
     siteName: "Straitly",
     type: "website",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Retro terminal running a chat completion through the Straitly API",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Straitly — A unified interface for LLMs",
     description:
       "One OpenAI-compatible API for Claude, GPT, and Gemini. Qualified teams get preferred pricing on frontier models.",
+    images: ["/og.png"],
   },
   icons: { icon: "/favicon.svg" },
 };
