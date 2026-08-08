@@ -1,59 +1,135 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import ArcadeCta from "@/components/ArcadeCta";
+import { openApplyModal } from "@/components/ApplyModal";
 
-/* Ramp-style header: starts as a near-full-width bar with a subtle
-   border, then shrinks into a compact floating pill once you scroll
-   ~30% of the first viewport. Pure CSS transitions on max-width /
-   padding / radius keep it buttery. */
-export default function SiteHeader() {
-  const [shrunk, setShrunk] = useState(false);
+/*
+ * Plain fixed header, edge to edge: announcement strip on top (the alpha
+ * offer, clicks through to the pricing section), solid nav bar under it.
+ * No pill, no shrinking, no rounding — it just sits there like a header.
+ *
+ * RELIABILITY / SPEED / COST don't anchor-jump: they tell the routing
+ * showcase which slide to show via a custom event, then it scrolls itself.
+ */
+
+const SLIDE_NAV = [
+  { label: "RELIABILITY", stage: 1 },
+  { label: "SPEED", stage: 2 },
+  { label: "COST", stage: 3 },
+] as const;
+
+function goToSlide(stage: number) {
+  window.dispatchEvent(
+    new CustomEvent("straitly:goto-stage", { detail: stage }),
+  );
+}
+
+/* the tiny mascot waving hello right before the announcement text —
+   two generated frames of the same miner, swapped like a sprite sheet
+   (hand swings in on frame a, out on frame b: a side-to-side wave) */
+function MiniMascot() {
+  const [frame, setFrame] = useState<"a" | "b">("a");
 
   useEffect(() => {
-    let raf = 0;
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        setShrunk(window.scrollY > window.innerHeight * 0.3);
-      });
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(raf);
-    };
+    const id = setInterval(
+      () => setFrame((f) => (f === "a" ? "b" : "a")),
+      500,
+    );
+    return () => clearInterval(id);
   }, []);
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-4 lg:px-2">
-      <div
-        className={[
-          "pointer-events-auto mt-2.5 flex w-full items-center justify-between rounded-xl border px-4 py-2 backdrop-blur-xl",
-          "transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
-          shrunk
-            ? "max-w-[840px] border-warm-gray/25 bg-charcoal/90 shadow-[0_12px_40px_rgba(0,0,0,0.45)]"
-            : "max-w-[1344px] border-warm-gray/15 bg-charcoal/75",
-        ].join(" ")}
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={`/retro/guy/wavey-${frame}.png?v=2`}
+      alt=""
+      aria-hidden
+      className="pointer-events-none h-7 w-auto"
+      style={{ imageRendering: "pixelated" }}
+    />
+  );
+}
+
+/* the numbers that sell the deal — bolded, with a hairline stroke so the
+   pixel font actually reads heavier at 10px */
+function Loud({ children }: { children: React.ReactNode }) {
+  return (
+    <b className="font-bold" style={{ WebkitTextStroke: "0.25px #1d1e22" }}>
+      {children}
+    </b>
+  );
+}
+
+export default function SiteHeader() {
+  return (
+    <header className="fixed inset-x-0 top-0 z-50">
+      {/* announcement: the one loud thing on the page, so it's terracotta.
+          Clicking anywhere on it opens the qualification form, same as the
+          "Claim your rate" CTA */}
+      <button
+        type="button"
+        onClick={openApplyModal}
+        className="flex w-full cursor-pointer items-center justify-center gap-2.5 bg-terracotta px-4 py-1.5 text-center font-pixel text-[10px] font-semibold tracking-[0.1em] text-[#1d1e22] transition-colors hover:bg-terracotta-bright sm:text-[11px]"
       >
-        <div className="flex items-center gap-2.5">
-          <Image
-            src="/straitly-mark.svg"
-            alt="Straitly compass logo"
-            width={26}
-            height={26}
-            priority
-          />
-          <span
-            className="font-pixel text-lg tracking-wide text-cream"
-            style={{ WebkitTextStroke: "0.6px var(--cream)" }}
-          >
-            straitly
+        <MiniMascot />
+        <span>
+          STRAITLY IS NOW IN <Loud>ALPHA</Loud> &middot; UP TO{" "}
+          <Loud>50%</Loud> OFF FRONTIER MODELS ON YOUR FIRST{" "}
+          <Loud>$100K</Loud> &middot;{" "}
+          <span className="underline underline-offset-2">
+            SEE IF YOU QUALIFY
           </span>
+        </span>
+      </button>
+
+      {/* the bar: solid, full-width, hairline under it, nothing moves */}
+      <div className="border-b border-warm-gray/15 bg-charcoal/95 backdrop-blur-xl">
+        <div className="mx-auto flex w-full max-w-[1360px] items-center justify-between px-6 py-3">
+          <a href="#access" className="flex items-center gap-2.5">
+            <Image
+              src="/straitly-mark.svg"
+              alt="Straitly compass logo"
+              width={26}
+              height={26}
+              priority
+            />
+            <span
+              className="font-pixel text-lg tracking-wide text-cream"
+              style={{ WebkitTextStroke: "0.6px var(--cream)" }}
+            >
+              straitly
+            </span>
+          </a>
+
+          <nav className="hidden items-center gap-8 md:flex">
+            <a
+              href="#models"
+              className="font-pixel text-[11px] tracking-[0.16em] text-[#c4beb4] transition-colors hover:text-cream"
+            >
+              MODELS
+            </a>
+            {SLIDE_NAV.map((item) => (
+              <button
+                key={item.label}
+                type="button"
+                onClick={() => goToSlide(item.stage)}
+                className="font-pixel text-[11px] tracking-[0.16em] text-[#c4beb4] transition-colors hover:text-cream"
+              >
+                {item.label}
+              </button>
+            ))}
+            <a
+              href="#security"
+              className="font-pixel text-[11px] tracking-[0.16em] text-[#c4beb4] transition-colors hover:text-cream"
+            >
+              SECURITY
+            </a>
+          </nav>
+
+          <ArcadeCta variant="header">Request access</ArcadeCta>
         </div>
-        <ArcadeCta variant="header">See if you qualify</ArcadeCta>
       </div>
     </header>
   );

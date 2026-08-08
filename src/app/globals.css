@@ -158,6 +158,69 @@ body {
   animation: logo-marquee 26s linear infinite;
 }
 
+/* gateway connectors: a short lit segment of the line glides along the
+   path (pathLength normalized to 100; dash pattern spans 200 so each pulse
+   fully clears the line before the next enters) */
+@keyframes line-trace {
+  from {
+    stroke-dashoffset: 200;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-line-trace {
+  /* dash length is set per layer inline (comet taper) */
+  animation: line-trace 3.2s linear infinite;
+}
+
+/* routing showcase: the active tab's underline draws itself in */
+@keyframes tab-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.animate-tab-line {
+  transform-origin: left;
+  animation: tab-line 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* routing showcase: cards / pills / taglines re-entering on mode change */
+@keyframes mode-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-mode-in {
+  animation: mode-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* gateway provider column: endless top-to-bottom crawl; the track holds two
+   copies of the tile stack, so -50% loops seamlessly */
+@keyframes tile-carousel {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+.animate-tile-carousel {
+  animation: tile-carousel 18s linear infinite;
+}
+
 /* menu-select cursor on CTA hover: blinks like an RPG menu arrow */
 @keyframes cursor-blink {
   0%,

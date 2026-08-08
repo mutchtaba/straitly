@@ -31,16 +31,6 @@ const SEGS: Seg[] = [
 ];
 
 const TOTAL = SEGS.reduce((n, s) => n + s.t.length, 0);
-
-/* character offset where each segment starts, so render can slice
-   without mutating anything */
-const OFFSETS = SEGS.map(
-  ((o) => (s: Seg) => {
-    const start = o;
-    o += s.t.length;
-    return start;
-  })(0),
-);
 const CHAR_MS = 16;
 
 const COLOR = { bright: G_BRIGHT, dim: G_DIM } as const;
@@ -55,8 +45,8 @@ export default function DiagnosticsPanel() {
     if (!el) return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      const raf = requestAnimationFrame(() => setTyped(TOTAL));
-      return () => cancelAnimationFrame(raf);
+      setTyped(TOTAL);
+      return;
     }
 
     let timer: ReturnType<typeof setInterval>;
@@ -85,8 +75,10 @@ export default function DiagnosticsPanel() {
   }, []);
 
   /* slice the styled segments at the current typing position */
+  let remaining = typed;
   const visible = SEGS.map((s, i) => {
-    const take = Math.min(Math.max(typed - OFFSETS[i], 0), s.t.length);
+    const take = Math.min(remaining, s.t.length);
+    remaining -= take;
     return take > 0 ? (
       <span key={i} style={s.c ? { color: COLOR[s.c] } : undefined}>
         {s.t.slice(0, take)}

@@ -1,10 +1,11 @@
 import TheDeal from "@/components/TheDeal";
-import StatBoard from "@/components/StatBoard";
 import Reveal from "@/components/Reveal";
 import SiteHeader from "@/components/SiteHeader";
 import RetroTerminal from "@/components/RetroTerminal";
 import { TrustedBy } from "@/components/SocialProof";
+import RoutingShowcase from "@/components/RoutingShowcase";
 import ModelCatalog from "@/components/ModelCatalog";
+import SecuritySection from "@/components/SecuritySection";
 import HowItWorks from "@/components/HowItWorks";
 import FinalCta from "@/components/FinalCta";
 import ArcadeCta from "@/components/ArcadeCta";
@@ -21,8 +22,8 @@ export default function Home() {
     <main className="flex min-h-screen flex-col">
       <SiteHeader />
 
-      <section id="access" className="overflow-x-clip pt-14">
-        <div className={`${CONTAINER} ${SECTION_GAP}`}>
+      <section id="access" className="overflow-x-clip pt-22">
+        <div className={`${CONTAINER} pt-14 md:pt-18 lg:pt-22`}>
           <div className="grid w-full items-center gap-10 lg:grid-cols-[minmax(0,45fr)_minmax(0,55fr)] lg:gap-12">
             <div>
               <Reveal>
@@ -33,8 +34,10 @@ export default function Home() {
                 </h1>
               </Reveal>
               <Reveal delay={0.15}>
-                <p className="mt-7 whitespace-nowrap font-pixel text-[10px] tracking-[0.05em] text-[#c4beb4] sm:text-[17px] sm:tracking-[0.18em]">
-                  ONE OPENAI-COMPATIBLE API &middot; EVERY FRONTIER MODEL
+                <p className="mt-7 font-pixel text-[10px] leading-[2.1] tracking-[0.05em] text-[#c4beb4] sm:text-[17px] sm:tracking-[0.18em]">
+                  ONE OPENAI-COMPATIBLE API
+                  <br />
+                  EVERY FRONTIER MODEL
                 </p>
               </Reveal>
               <Reveal delay={0.25}>
@@ -96,6 +99,18 @@ export default function Home() {
         </div>
       </section>
 
+      <section id="gateway" className={`${SECTION_GAP} overflow-x-clip`}>
+        <div className={CONTAINER}>
+          <RoutingShowcase />
+        </div>
+      </section>
+
+      <section id="security" className={`${SECTION_GAP} overflow-x-clip`}>
+        <div className={CONTAINER}>
+          <SecuritySection />
+        </div>
+      </section>
+
       <section id="deal" className={`${SECTION_GAP} overflow-x-clip`}>
         <div className={CONTAINER}>
           <TheDeal />
@@ -105,12 +120,6 @@ export default function Home() {
       <section id="models" className={`${SECTION_GAP} overflow-x-clip`}>
         <div className={CONTAINER}>
           <ModelCatalog />
-        </div>
-      </section>
-
-      <section id="reliability" className={`${SECTION_GAP} overflow-x-clip`}>
-        <div className={CONTAINER}>
-          <StatBoard />
         </div>
       </section>
 
